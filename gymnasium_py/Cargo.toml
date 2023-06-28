@@ -1,0 +1,26 @@
+[package]
+name = "gymnasium_py"
+authors.workspace = true
+categories.workspace = true
+description.workspace = true
+edition.workspace = true
+keywords.workspace = true
+license.workspace = true
+readme.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[dependencies]
+pyo3 = { workspace = true, optional = true }
+gymnasium = { path = "../gymnasium" }
+
+[features]
+default = []
+python = ["pyo3"]
+
+[lib]
+name = "gymnasium_rs"
+path = "src/lib.rs"
+crate-type = ["rlib", "cdylib"]
+doc = false

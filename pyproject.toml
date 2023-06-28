@@ -1,0 +1,23 @@
+[build-system]
+build-backend = "maturin"
+requires = ["maturin>=1.1,<2.0"]
+
+[project]
+name = "gymnasium_rs"
+classifiers = [
+  "Programming Language :: Python",
+  "Programming Language :: Rust",
+  "License :: OSI Approved :: MIT License",
+  "License :: OSI Approved :: Apache Software License",
+  "Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.7"
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.maturin]
+features = ["python", "pyo3/extension-module"]
+manifest-path = "gymnasium_py/Cargo.toml"
+python-source = "gymnasium_py/python"

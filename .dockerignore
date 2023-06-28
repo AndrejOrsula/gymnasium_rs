@@ -1,0 +1,63 @@
+## Docker
+Dockerfile
+.dockerignore
+.docker/host
+.docker/*.bash
+
+## Dev Container
+.devcontainer/
+
+## Git
+**/.git
+**/.gitignore
+
+## GitHub
+.github/
+
+## Pre-commit
+.git_hooks
+.pre-commit-config.yaml
+
+## Markdown
+**/CHANGELOG.md
+
+### Inherited from gitignore ###
+## Rust & Cargo
+target/
+**/*.rs.bk
+**/*.pdb
+**/.cargo/config.toml
+!.cargo/config.toml
+
+## Python
+**/__pycache__/
+**/.pytest_cache/
+**/*.pcd
+**/*.py[cod]
+**/*.pyc
+**/*$py.class
+
+## Shared Objects
+**/*.so
+
+## Virtual environments
+.env
+.venv
+env.bak/
+env/
+ENV/
+venv.bak/
+venv/
+
+## ROS 2 & Colcon
+build/
+install/
+log/
+
+## VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/*.code-snippets

@@ -1,0 +1,20 @@
+[package]
+name = "gymnasium"
+authors.workspace = true
+categories.workspace = true
+description.workspace = true
+edition.workspace = true
+keywords.workspace = true
+license.workspace = true
+readme.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[dependencies]
+pyo3 = { workspace = true }
+
+[lib]
+name = "gymnasium"
+path = "src/lib.rs"
+crate-type = ["rlib"]

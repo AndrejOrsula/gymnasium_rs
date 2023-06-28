@@ -1,0 +1,7 @@
+{
+	"name": "gymnasium_rs",
+	"build": {
+		"context": "..",
+		"dockerfile": "../Dockerfile"
+	}
+}

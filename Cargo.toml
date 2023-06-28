@@ -1,0 +1,24 @@
+[workspace]
+members = [
+    # Core library
+    "gymnasium",
+    # CLI tool
+    "gymnasium_cli",
+    # Python module
+    "gymnasium_py",
+]
+
+[workspace.package]
+authors = ["Andrej Orsula <orsula.andrej@gmail.com>"]
+categories = ["api-bindings", "science"]
+description = "Gymnasium API for Reinforcement Learning"
+edition = "2021"
+keywords = ["machine-learning", "reinforcement-learning"]
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/AndrejOrsula/gymnasium_rs"
+rust-version = "1.56"
+version = "0.0.0"
+
+[workspace.dependencies]
+pyo3 = { version = "0.19", features = ["abi3-py37"] }
