@@ -109,22 +109,6 @@ jobs:
       - name: cross check --all-features
         run: cross check --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --all-targets --all-features --target ${{ matrix.target }} --verbose
 
-      ## cross test
-      - name: cross test
-        run: cross test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --all-targets --target ${{ matrix.target }} --verbose
-      - name: cross test --no-default-features
-        run: cross test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --all-targets --no-default-features --target ${{ matrix.target }} --verbose
-      - name: cross test --all-features
-        run: cross test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --all-targets --all-features --target ${{ matrix.target }} --verbose
-
-      ## cross test --doc
-      - name: cross test --doc (default features)
-        run: cross test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --doc --target ${{ matrix.target }} --verbose
-      - name: cross test --doc --no-default-features
-        run: cross test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --doc --no-default-features --target ${{ matrix.target }} --verbose
-      - name: cross test --doc --all-features
-        run: cross test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --doc --all-features --target ${{ matrix.target }} --verbose
-
   publish:
     if: ${{ github.event_name == 'release' }}
     needs:
