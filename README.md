@@ -4,9 +4,11 @@
   <a href="https://crates.io/crates/gymnasium">                                        <img alt="crates.io" src="https://img.shields.io/crates/v/gymnasium.svg"></a>
   <!-- TODO[doc]: Enable shield once Python module is published on https://pypi.org -->
   <!-- <a href="https://pypi.org/project/gymnasium_rs/">                                    <img alt="PyPi"      src="https://img.shields.io/pypi/v/gymnasium_rs.svg"></a> -->
+  <a href="https://docs.rs/gymnasium">                                                 <img alt="docs"      src="https://img.shields.io/docsrs/gymnasium.svg?label=docs.rs"></a>
   <a href="https://github.com/AndrejOrsula/gymnasium_rs/actions/workflows/rust.yml">   <img alt="Rust"      src="https://github.com/AndrejOrsula/gymnasium_rs/actions/workflows/rust.yml/badge.svg"></a>
   <a href="https://github.com/AndrejOrsula/gymnasium_rs/actions/workflows/python.yml"> <img alt="Python"    src="https://github.com/AndrejOrsula/gymnasium_rs/actions/workflows/python.yml/badge.svg"></a>
   <a href="https://github.com/AndrejOrsula/gymnasium_rs/actions/workflows/docker.yml"> <img alt="Docker"    src="https://github.com/AndrejOrsula/gymnasium_rs/actions/workflows/docker.yml/badge.svg"></a>
+  <a href="https://deps.rs/repo/github/AndrejOrsula/gymnasium_rs">                     <img alt="deps"      src="https://deps.rs/repo/github/AndrejOrsula/gymnasium_rs/status.svg"></a>
   <a href="https://codecov.io/gh/AndrejOrsula/gymnasium_rs">                           <img alt="codecov"   src="https://codecov.io/gh/AndrejOrsula/gymnasium_rs/branch/main/graph/badge.svg"></a>
 </p>
 
