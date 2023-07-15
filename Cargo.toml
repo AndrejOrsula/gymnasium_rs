@@ -17,9 +17,16 @@ keywords = ["gym", "ml", "rl"]
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/AndrejOrsula/gymnasium_rs"
-rust-version = "1.56"
+rust-version = "1.70"
 version = "0.0.0"
 
 [workspace.dependencies]
+dfdx = { git = "https://github.com/coreylowman/dfdx.git", branch = "main" }
+num-traits = { version = "0.2" }
 pyo3 = { version = "0.19", features = ["abi3-py37"] }
+rand = { version = "0.8" }
 thiserror = { version = "1.0" }
+
+# TODO[deps]: Remove once merged - https://github.com/coreylowman/dfdx/pull/817
+[patch.'https://github.com/coreylowman/dfdx.git']
+dfdx = { git = "https://github.com/AndrejOrsula/dfdx.git", branch = "pub-storage-traits" }

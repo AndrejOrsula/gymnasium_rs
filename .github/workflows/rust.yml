@@ -25,7 +25,7 @@ jobs:
       fail-fast: false
       matrix:
         toolchain:
-          - 1.56 # Minimal supported Rust version (MSRV)
+          - "1.70" # Minimal supported Rust version (MSRV)
           - stable
           - beta
           - nightly
