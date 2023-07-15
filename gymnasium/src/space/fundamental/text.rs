@@ -186,7 +186,7 @@ mod tests {
 
         // Act + Assert
         assert!(TextSpace::new(2, 1, dev.clone(), None).is_err());
-        assert!(TextSpace::new(0, 10, dev.clone(), None).is_err());
+        assert!(TextSpace::new(0, 10, dev, None).is_err());
     }
 
     #[test]

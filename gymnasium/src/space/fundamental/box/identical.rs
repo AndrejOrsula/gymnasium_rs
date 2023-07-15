@@ -228,7 +228,7 @@ mod tests {
             u8::MAX,
             0,
             (Const::<16>, Const::<16>, Const::<3>),
-            dev.clone(),
+            dev,
             None
         )
         .is_err());
