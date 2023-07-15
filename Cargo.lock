@@ -192,7 +192,7 @@ checksum = "cb343be4b5f288104757a87b80ef2b2fe815344a6e806eec56c5130e104dc8b4"
 [[package]]
 name = "dfdx"
 version = "0.12.1"
-source = "git+https://github.com/coreylowman/dfdx.git?branch=main#05c9dfc96fad85371c6dfe2009f21fc37dd14e0c"
+source = "git+https://github.com/AndrejOrsula/dfdx.git?branch=pub-storage-traits#14859ed0e0e1cb3ed4654ddacf0f63680744a016"
 dependencies = [
  "cudarc",
  "gemm",

@@ -26,3 +26,7 @@ num-traits = { version = "0.2" }
 pyo3 = { version = "0.19", features = ["abi3-py37"] }
 rand = { version = "0.8" }
 thiserror = { version = "1.0" }
+
+# TODO[deps]: Remove once merged - https://github.com/coreylowman/dfdx/pull/817
+[patch.'https://github.com/coreylowman/dfdx.git']
+dfdx = { git = "https://github.com/AndrejOrsula/dfdx.git", branch = "pub-storage-traits" }
