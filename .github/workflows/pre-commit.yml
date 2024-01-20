@@ -13,14 +13,14 @@ concurrency:
 
 env:
   PYTHON_VERSION: "3.10"
-  SKIP: cargo-fmt,cargo-update,cargo-clippy,cargo-check,cargo-test,cargo-test-doc,cargo-doc
+  SKIP: cargo-fmt,cargo-update,cargo-clippy,cargo-check,cargo-test,cargo-test-doc,cargo-doc,cargo-miri-test,cargo-miri-run,cargo-deny-check
 
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 

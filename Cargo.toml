@@ -6,19 +6,30 @@ members = [
     "gymnasium_cli",
     # Python module
     "gymnasium_py",
+    # Rust FFI bindings
+    "gymnasium_sys",
 ]
+resolver = "2"
 
 [workspace.package]
 authors = ["Andrej Orsula <orsula.andrej@gmail.com>"]
 categories = ["api-bindings", "science"]
 description = "Gymnasium API for Reinforcement Learning"
 edition = "2021"
-keywords = ["machine-learning", "reinforcement-learning"]
+keywords = ["gym", "ml", "rl"]
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/AndrejOrsula/gymnasium_rs"
-rust-version = "1.56"
-version = "0.0.0"
+rust-version = "1.70"
+version = "0.0.1"
 
 [workspace.dependencies]
-pyo3 = { version = "0.19", features = ["abi3-py37"] }
+gymnasium = { path = "gymnasium", version = "0.0.1" }
+gymnasium_sys = { path = "gymnasium_sys", version = "0.0.1" }
+
+assert_cmd = { version = "2" }
+clap = { version = "4.4", features = ["derive"] }
+predicates = { version = "3" }
+pyo3 = { version = "0.20", features = ["abi3-py310", "auto-initialize"] }
+pyo3_bindgen = { version = "0.1" }
+thiserror = { version = "1.0" }

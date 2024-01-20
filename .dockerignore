@@ -1,25 +1,25 @@
 ## Docker
 Dockerfile
 .dockerignore
-.docker/host
+.docker/host/
 .docker/*.bash
+
+## Docker Compose
+docker-compose.yml
 
 ## Dev Container
 .devcontainer/
 
 ## Git
-**/.git
-**/.gitignore
+.git/
+.gitignore
 
 ## GitHub
 .github/
 
 ## Pre-commit
-.git_hooks
+.git_hooks/
 .pre-commit-config.yaml
-
-## Markdown
-**/CHANGELOG.md
 
 ### Inherited from gitignore ###
 ## Rust & Cargo
@@ -41,18 +41,8 @@ target/
 **/*.so
 
 ## Virtual environments
-.env
-.venv
-env.bak/
-env/
-ENV/
-venv.bak/
-venv/
-
-## ROS 2 & Colcon
-build/
-install/
-log/
+.env/
+.venv/
 
 ## VS Code
 .vscode/*

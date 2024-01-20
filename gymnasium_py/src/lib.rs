@@ -1,4 +1,4 @@
-//! Python module of Gymnasium.
+//! Python module for the Rust implementation of Gymnasium for interoperability with Rust environments.
 #![cfg(feature = "python")]
 #![allow(unused)]
 

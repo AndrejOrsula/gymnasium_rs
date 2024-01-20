@@ -13,12 +13,10 @@ DOCKER_EXEC_OPTS="${DOCKER_EXEC_OPTS:-
 DEFAULT_CMD="bash"
 
 ## If the current user is not in the docker group, all docker commands will be run as root
-if ! grep -qi /etc/group -e "${CONTAINER_NAME}.*${USER}"; then
+WITH_SUDO=""
+if ! grep -qi /etc/group -e "docker.*${USER}"; then
     echo "INFO: The current user ${USER} is not detected in the docker group. All docker commands will be run as root."
-    # shellcheck disable=all
-    docker() {
-        sudo docker "$@"
-    }
+    WITH_SUDO="sudo"
 fi
 
 ## Get the name of the repository (directory) or use the default
@@ -48,7 +46,7 @@ else
 fi
 
 ## Verify that the container is active
-RUNNING_CONTAINERS=$(docker container list --format "{{.Names}}" | grep -i "${CONTAINER_NAME}" || :)
+RUNNING_CONTAINERS=$(${WITH_SUDO} docker container list --format "{{.Names}}" | grep -i "${CONTAINER_NAME}" || :)
 RUNNING_CONTAINERS_COUNT=$(echo "${RUNNING_CONTAINERS}" | wc -w)
 if [ "${RUNNING_CONTAINERS_COUNT}" -eq "0" ]; then
     echo >&2 -e "\033[1;31mERROR: There are no active containers with the name \"${CONTAINER_NAME}\". Start the container first before attempting to join it.\033[0m"
@@ -90,12 +88,13 @@ else
 fi
 
 ## Execute command inside the container
+# shellcheck disable=SC2206
 DOCKER_EXEC_CMD=(
-    docker exec
+    ${WITH_SUDO} docker exec
     "${DOCKER_EXEC_OPTS}"
     "${CONTAINER_NAME}"
     "${CMD}"
 )
-echo -e "\033[1;30m${DOCKER_EXEC_CMD[*]}\033[0m" | xargs
+echo -e "\033[1;90m${DOCKER_EXEC_CMD[*]}\033[0m" | xargs
 # shellcheck disable=SC2048
 exec ${DOCKER_EXEC_CMD[*]}

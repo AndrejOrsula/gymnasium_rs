@@ -1,4 +1,4 @@
-//! CLI tool of Gymnasium.
+//! CLI tool for the Rust implementation of Gymnasium.
 #![allow(unused)]
 
 use clap::Parser;

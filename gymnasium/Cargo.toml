@@ -12,7 +12,9 @@ rust-version.workspace = true
 version.workspace = true
 
 [dependencies]
+gymnasium_sys = { workspace = true }
 pyo3 = { workspace = true }
+thiserror = { workspace = true }
 
 [lib]
 name = "gymnasium"

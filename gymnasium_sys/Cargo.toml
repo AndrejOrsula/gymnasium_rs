@@ -1,5 +1,5 @@
 [package]
-name = "gymnasium_cli"
+name = "gymnasium_sys"
 authors.workspace = true
 categories.workspace = true
 description.workspace = true
@@ -12,14 +12,13 @@ rust-version.workspace = true
 version.workspace = true
 
 [dependencies]
-clap = { workspace = true }
-gymnasium = { workspace = true }
+pyo3 = { workspace = true }
 
-[dev-dependencies]
-assert_cmd = { workspace = true }
-predicates = { workspace = true }
+[build-dependencies]
+pyo3_bindgen = { workspace = true }
 
-[[bin]]
-name = "gymnasium_rs"
-path = "src/main.rs"
-doc = false
+[lib]
+name = "gymnasium_sys"
+path = "src/lib.rs"
+crate-type = ["rlib"]
+doctest = false
