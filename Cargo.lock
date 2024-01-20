@@ -162,6 +162,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fea41bba32d969b513997752735605054bc0dfa92b4c56bf1189f2e174be7a10"
 
 [[package]]
+name = "either"
+version = "1.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a26ae43d7bcc3b814de94796a5e736d4029efb0ee900c12e2d54c993ad1a1e07"
+
+[[package]]
 name = "float-cmp"
 version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -197,6 +203,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "gymnasium_sys"
+version = "0.1.0"
+dependencies = [
+ "pyo3",
+ "pyo3_bindgen",
+]
+
+[[package]]
 name = "heck"
 version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -207,6 +221,15 @@ name = "indoc"
 version = "2.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1e186cfbae8084e513daff4240b4797e342f988cecda4fb6c939150f96315fd8"
+
+[[package]]
+name = "itertools"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "25db6b064527c5d482d0423354fcd07a89a2dfe07b67892e62411946db7f07b0"
+dependencies = [
+ "either",
+]
 
 [[package]]
 name = "libc"
@@ -379,6 +402,42 @@ checksum = "0fc910d4851847827daf9d6cdd4a823fbdaab5b8818325c5e97a86da79e8881f"
 dependencies = [
  "heck",
  "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "pyo3_bindgen"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2cb5494b5d4c7f6c81f3d0c496264ab0a86689bebeb30d00aad6342ce427e3ef"
+dependencies = [
+ "pyo3_bindgen_engine",
+ "pyo3_bindgen_macros",
+]
+
+[[package]]
+name = "pyo3_bindgen_engine"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f282881e4691b826d82ad8769464e579bc02f17b37c3f18a78a9bbbc3232a6b7"
+dependencies = [
+ "itertools",
+ "proc-macro2",
+ "pyo3",
+ "pyo3-build-config",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "pyo3_bindgen_macros"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a0416c242b3614e1e88610362aaf9fe9a669450c6d6ab9a1fbf750c1e9a6ccf2"
+dependencies = [
+ "proc-macro2",
+ "pyo3_bindgen_engine",
  "quote",
  "syn",
 ]

@@ -76,7 +76,7 @@ repos:
       - id: cargo-test
         args: ["--workspace", "--all-targets"]
       - id: cargo-test-doc
-        args: ["--workspace"]
+        args: ["--workspace", "--exclude", "gymnasium_sys"]
       - id: cargo-doc
         args: ["--workspace", "--no-deps", "--document-private-items"]
       - id: cargo-miri-test

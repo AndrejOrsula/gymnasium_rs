@@ -14,8 +14,11 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  PYTHON_VERSION: "3.10"
+  GYMNASIUM_VERSION: "0.29.1"
   CARGO_TERM_COLOR: always
   LIB_PACKAGE_NAME: gymnasium
+  SYS_LIB_PACKAGE_NAME: gymnasium_sys
   CLI_PACKAGE_NAME: gymnasium_cli
   PYTHON_PACKAGE_NAME: gymnasium_py
 
@@ -51,6 +54,12 @@ jobs:
         with:
           toolchain: ${{ matrix.toolchain }}
           components: clippy
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      ## Install dependencies
+      - run: python -m pip install --no-cache-dir gymnasium==${{ env.GYMNASIUM_VERSION }}
 
       ## cargo check
       - name: cargo check
@@ -70,11 +79,11 @@ jobs:
 
       ## cargo test --doc
       - name: cargo test --doc
-        run: cargo test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --doc --verbose
+        run: cargo test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --exclude ${{ env.SYS_LIB_PACKAGE_NAME }} --doc --verbose
       - name: cargo test --doc --no-default-features
-        run: cargo test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --doc --no-default-features --verbose
+        run: cargo test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --exclude ${{ env.SYS_LIB_PACKAGE_NAME }} --doc --no-default-features --verbose
       - name: cargo test --doc --all-features
-        run: cargo test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --doc --all-features --verbose
+        run: cargo test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --exclude ${{ env.SYS_LIB_PACKAGE_NAME }} --doc --all-features --verbose
 
       ## [stable] cargo clippy
       - name: stable | cargo clippy
@@ -124,6 +133,9 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
 
       ## Publish to crates.io
+      - name: Publish crate (sys library)
+        if: ${{ env.CARGO_REGISTRY_TOKEN != '' }}
+        run: cargo publish --no-verify --package ${{ env.SYS_LIB_PACKAGE_NAME }} --token ${{ secrets.CARGO_REGISTRY_TOKEN }}
       - name: Publish crate (library)
         if: ${{ env.CARGO_REGISTRY_TOKEN != '' }}
         run: cargo publish --no-verify --package ${{ env.LIB_PACKAGE_NAME }} --token ${{ secrets.CARGO_REGISTRY_TOKEN }}

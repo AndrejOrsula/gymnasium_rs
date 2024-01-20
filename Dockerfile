@@ -17,6 +17,10 @@ RUN apt-get update && \
     python3-pip && \
     rm -rf /var/lib/apt/lists/*
 
+### Install dependencies (Gymnasium)
+ARG GYMNASIUM_VERSION="0.29.1"
+RUN python3 -m pip install --break-system-packages --no-cache-dir "gymnasium[all]==${GYMNASIUM_VERSION}"
+
 ### Copy the source
 COPY . "${WORKSPACE}"
 

@@ -6,6 +6,8 @@ members = [
     "gymnasium_cli",
     # Python module
     "gymnasium_py",
+    # Rust FFI bindings
+    "gymnasium_sys",
 ]
 resolver = "2"
 
@@ -23,9 +25,11 @@ version = "0.1.0"
 
 [workspace.dependencies]
 gymnasium = { path = "gymnasium", version = "0.1.0" }
+gymnasium_sys = { path = "gymnasium_sys", version = "0.1.0" }
 
 assert_cmd = { version = "2" }
 clap = { version = "4.4", features = ["derive"] }
 predicates = { version = "3" }
 pyo3 = { version = "0.20", features = ["abi3-py310", "auto-initialize"] }
+pyo3_bindgen = { version = "0.1" }
 thiserror = { version = "1.0" }
