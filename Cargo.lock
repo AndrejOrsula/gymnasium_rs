@@ -408,9 +408,9 @@ dependencies = [
 
 [[package]]
 name = "pyo3_bindgen"
-version = "0.1.0"
+version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2cb5494b5d4c7f6c81f3d0c496264ab0a86689bebeb30d00aad6342ce427e3ef"
+checksum = "e5e9515b0b5f9311c13d58305325966fccc9106e95ba3ecb2dae2adbe154a692"
 dependencies = [
  "pyo3_bindgen_engine",
  "pyo3_bindgen_macros",
@@ -418,9 +418,9 @@ dependencies = [
 
 [[package]]
 name = "pyo3_bindgen_engine"
-version = "0.1.0"
+version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f282881e4691b826d82ad8769464e579bc02f17b37c3f18a78a9bbbc3232a6b7"
+checksum = "93ecdb52eb0fc71e80d6a8a059c1872dd30861480b34f67cf1ccc382a1ad019d"
 dependencies = [
  "itertools",
  "proc-macro2",
@@ -432,9 +432,9 @@ dependencies = [
 
 [[package]]
 name = "pyo3_bindgen_macros"
-version = "0.1.0"
+version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a0416c242b3614e1e88610362aaf9fe9a669450c6d6ab9a1fbf750c1e9a6ccf2"
+checksum = "0e4a0bf0840c58172533b09b8fcb02c1054af9e6e986cb0f93f3e96815e5ee79"
 dependencies = [
  "proc-macro2",
  "pyo3_bindgen_engine",
