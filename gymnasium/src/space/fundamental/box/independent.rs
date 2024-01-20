@@ -1,8 +1,8 @@
 use super::{BoxSpace, Space};
-use crate::utils::{GymnasiumError, Result, Rng};
+use crate::{GymnasiumError, Result, Rng};
 use dfdx::{
     shapes::{Dtype, HasDtype, HasShape, HasUnitType, Shape},
-    tensor::{AsArray, HasErr, Storage, Tensor, TensorFromVec, TensorToArray},
+    tensor::{AsArray, Storage, Tensor, TensorFromVec, TensorToArray},
 };
 use rand::{
     distributions::{
@@ -166,15 +166,6 @@ where
     D: Storage<E>,
 {
     type Dtype = E;
-}
-
-impl<S, E, D> HasErr for BoxSpaceIndependent<S, E, D>
-where
-    S: Shape,
-    E: Dtype + SampleUniform,
-    D: Storage<E>,
-{
-    type Err = D::Err;
 }
 
 impl<S, E, D> Clone for BoxSpaceIndependent<S, E, D>

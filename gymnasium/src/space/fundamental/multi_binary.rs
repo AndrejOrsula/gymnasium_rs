@@ -1,8 +1,8 @@
 use super::Space;
-use crate::utils::Rng;
+use crate::Rng;
 use dfdx::{
     shapes::{HasShape, HasUnitType, Shape},
-    tensor::{HasErr, Storage, Tensor, TensorFromVec},
+    tensor::{Storage, Tensor, TensorFromVec},
 };
 use rand::{
     distributions::{Distribution, Standard},
@@ -95,14 +95,6 @@ where
     D: Storage<bool>,
 {
     type Unit = bool;
-}
-
-impl<S, D> HasErr for MultiBinarySpace<S, D>
-where
-    S: Shape,
-    D: Storage<bool>,
-{
-    type Err = D::Err;
 }
 
 impl<S, D> Debug for MultiBinarySpace<S, D>

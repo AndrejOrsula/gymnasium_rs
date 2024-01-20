@@ -1,8 +1,8 @@
 use super::Space;
-use crate::utils::{GymnasiumError, Result, Rng};
+use crate::{GymnasiumError, Result, Rng};
 use dfdx::{
     shapes::{Dtype, HasDtype, HasShape, HasUnitType, Shape},
-    tensor::{AsArray, HasErr, Storage, Tensor, TensorFromVec, TensorToArray},
+    tensor::{AsArray, Storage, Tensor, TensorFromVec, TensorToArray},
 };
 use num_traits::PrimInt;
 use rand::{
@@ -173,15 +173,6 @@ where
     D: Storage<E>,
 {
     type Dtype = E;
-}
-
-impl<S, E, D> HasErr for MultiDiscreteSpace<S, E, D>
-where
-    S: Shape,
-    E: Dtype + PrimInt + SampleUniform,
-    D: Storage<E>,
-{
-    type Err = D::Err;
 }
 
 impl<S, E, D> Clone for MultiDiscreteSpace<S, E, D>

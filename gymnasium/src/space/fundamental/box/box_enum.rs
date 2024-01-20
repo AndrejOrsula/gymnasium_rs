@@ -1,7 +1,7 @@
 use super::{BoxSpaceIdentical, BoxSpaceIndependent, Space};
 use dfdx::{
     shapes::{Dtype, HasDtype, HasShape, HasUnitType, Shape},
-    tensor::{HasErr, Storage, Tensor, TensorFromVec, TensorToArray},
+    tensor::{Storage, Tensor, TensorFromVec, TensorToArray},
 };
 use rand::distributions::uniform::SampleUniform;
 use std::{
@@ -147,15 +147,6 @@ where
     type Dtype = E;
 }
 
-impl<S, E, D> HasErr for BoxSpace<S, E, D>
-where
-    S: Shape,
-    E: Dtype + SampleUniform,
-    D: Storage<E>,
-{
-    type Err = D::Err;
-}
-
 impl<S, E, D> Debug for BoxSpace<S, E, D>
 where
     S: Shape,
@@ -173,7 +164,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::utils::Result;
+    use crate::Result;
     use dfdx::{
         shapes::Const,
         tensor::{AutoDevice, TensorFrom},

@@ -26,6 +26,7 @@ confidence-threshold = 0.925
 allow = [
     "Apache-2.0 WITH LLVM-exception", # https://spdx.org/licenses/LLVM-exception.html
     "Apache-2.0",                     # https://spdx.org/licenses/Apache-2.0.html
+    "BSD-2-Clause",                   # https://spdx.org/licenses/BSD-2-Clause.html
     "BSD-3-Clause",                   # https://spdx.org/licenses/BSD-3-Clause.html
     "ISC",                            # https://spdx.org/licenses/ISC.html
     "MIT",                            # https://spdx.org/licenses/MIT.html
@@ -33,6 +34,14 @@ allow = [
     "Unicode-DFS-2016",               # https://spdx.org/licenses/Unicode-DFS-2016.html
 ]
 exceptions = []
+
+[[licenses.clarify]]
+name = "dfdx-derives"
+expression = "MIT OR Apache-2.0"
+license-files = [
+    { path = "../LICENSE-APACHE", hash = 0xf4f7165 },
+    { path = "../LICENSE-MIT", hash = 0xf4f7165 },
+]
 
 # Considered when running `cargo deny check bans`
 # https://embarkstudios.github.io/cargo-deny/checks/bans/cfg.html
@@ -50,4 +59,4 @@ unknown-registry = "deny"
 unknown-git = "deny"
 
 [sources.allow-org]
-github = ["AndrejOrsula"]
+github = ["AndrejOrsula", "coreylowman"]

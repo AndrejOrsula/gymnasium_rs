@@ -1,8 +1,8 @@
 use super::Space;
-use crate::utils::{GymnasiumError, Result, Rng};
+use crate::{GymnasiumError, Result, Rng};
 use dfdx::{
     shapes::{HasDtype, HasUnitType},
-    tensor::{HasErr, Storage, Tensor, TensorFromVec},
+    tensor::{Storage, Tensor, TensorFromVec},
 };
 use rand::{
     distributions::{uniform::Uniform, Alphanumeric, DistString, Distribution},
@@ -131,13 +131,6 @@ where
     D: Storage<u8>,
 {
     type Dtype = u8;
-}
-
-impl<D> HasErr for TextSpace<D>
-where
-    D: Storage<u8>,
-{
-    type Err = D::Err;
 }
 
 impl<D> Debug for TextSpace<D>

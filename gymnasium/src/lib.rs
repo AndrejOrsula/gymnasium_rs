@@ -1,7 +1,9 @@
 //! Gymnasium API for Reinforcement Learning.
 
-/// Re-export of the FFI bindings to the Python implementation of Gymnasium.
-pub use gymnasium_sys as sys;
+// pub mod env;
+// pub mod registry;
+pub mod space;
+pub mod utils;
 
 /// Prelude module for the gymnasium crate that re-exports the most commonly used items.
 pub mod prelude {
@@ -11,10 +13,11 @@ pub mod prelude {
         BoxSpace, BoxSpaceIdentical, BoxSpaceIndependent, DiscreteSpace, MultiBinarySpace,
         MultiDiscreteSpace, Space, TextSpace,
     };
-    pub use crate::utils::GymnasiumError;
+    pub use crate::{GymnasiumError, GymnasiumResult};
 }
 
-// pub mod env;
-// pub mod registry;
-pub mod space;
-pub mod utils;
+/// Re-export of the FFI bindings to the Python implementation of Gymnasium.
+pub use gymnasium_sys as sys;
+pub use utils::{error::GymnasiumError, result::GymnasiumResult};
+
+pub(crate) use utils::{random::Rng, result::Result};

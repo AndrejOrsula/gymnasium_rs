@@ -29,10 +29,13 @@ gymnasium_sys = { path = "gymnasium_sys", version = "0.0.1" }
 
 assert_cmd = { version = "2" }
 clap = { version = "4.4", features = ["derive"] }
-dfdx = { git = "https://github.com/coreylowman/dfdx.git", branch = "main" }
-num-traits = { version = "0.2" }
 predicates = { version = "3" }
 pyo3 = { version = "0.20", features = ["abi3-py310", "auto-initialize"] }
 pyo3_bindgen = { version = "0.1" }
-rand = { version = "0.8" }
 thiserror = { version = "1.0" }
+
+dfdx = { git = "https://github.com/coreylowman/dfdx.git", rev = "f4f7165" }
+ndarray = { version = "0.15" }
+num-traits = { version = "0.2" }
+numpy = { version = "0.20" }
+rand = { version = "0.8", features = ["small_rng"] }
