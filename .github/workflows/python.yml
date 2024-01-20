@@ -16,7 +16,6 @@ concurrency:
 env:
   CARGO_TERM_COLOR: always
   PYTHON_VERSION: "3.10"
-  GYMNASIUM_VERSION: "0.29.1"
 
 jobs:
   pytest:
@@ -29,9 +28,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-
-      ## Install dependencies
-      - run: pip install gymnasium==${{ env.GYMNASIUM_VERSION }}
 
       - name: pip install
         run: pip install .[test]
