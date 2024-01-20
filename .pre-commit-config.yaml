@@ -1,18 +1,19 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 
+exclude: Cargo.lock
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: check-ast
       - id: check-builtin-literals
       - id: check-case-conflict
       - id: check-docstring-first
       - id: check-executables-have-shebangs
-      - id: check-json
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
+        exclude: \.rs$
       - id: check-symlinks
       - id: check-toml
       - id: check-vcs-permalinks
@@ -35,12 +36,12 @@ repos:
       - id: beautysh
 
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 23.9.1
     hooks:
       - id: black
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.5
+    rev: v2.2.6
     hooks:
       - id: codespell
         args: ["--ignore-words-list", "crate"]
@@ -53,28 +54,32 @@ repos:
         args: [--ignore, DL3008]
 
   - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+    rev: 5.13.2
     hooks:
       - id: isort
         args: ["--profile", "black"]
 
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.16
+    rev: 0.7.17
     hooks:
       - id: mdformat
 
   - repo: https://github.com/AndrejOrsula/pre-commit-cargo
-    rev: 0.2.0
+    rev: 0.3.0
     hooks:
       - id: cargo-fmt
       - id: cargo-update
       - id: cargo-clippy
-        args: ["--workspace", "--all-targets", "--all-features"]
+        args: ["--workspace", "--all-targets", "--", "--deny=warnings"]
       - id: cargo-check
-        args: ["--workspace", "--all-targets", "--all-features"]
+        args: ["--workspace", "--all-targets"]
       - id: cargo-test
         args: ["--workspace", "--all-targets"]
       - id: cargo-test-doc
-        args: ["--workspace", "--all-features"]
+        args: ["--workspace"]
       - id: cargo-doc
         args: ["--workspace", "--no-deps", "--document-private-items"]
+      - id: cargo-miri-test
+        args: ["--workspace"]
+      - id: cargo-miri-run
+      - id: cargo-deny-check

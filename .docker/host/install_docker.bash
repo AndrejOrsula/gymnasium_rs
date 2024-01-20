@@ -1,27 +1,26 @@
 #!/usr/bin/env bash
 set -e
 
-## Install wget if not installed
-if [[ ! -x "$(command -v wget)" ]]; then
-    echo "INFO: Installing wget..."
-    sudo apt-get update
-    sudo apt-get install -y wget
+## Install curl if missing
+if ! command -v curl >/dev/null 2>&1; then
+    if command -v apt-get >/dev/null 2>&1; then
+        sudo apt-get install -y curl
+    elif command -v dnf >/dev/null 2>&1; then
+        sudo dnf install -y curl
+    elif command -v yum >/dev/null 2>&1; then
+        sudo yum install -y curl
+    fi
 fi
 
-## Install Docker if not installed
-if [[ ! -x "$(command -v docker)" ]]; then
-    echo "INFO: Installing Docker..."
-    wget https://get.docker.com -O - -o /dev/null | sh
-    sudo systemctl --now enable docker
-else
-    echo "INFO: Docker is already installed."
-fi
+## Install Docker via the convenience script
+curl -fsSL https://get.docker.com | sh
+sudo systemctl enable --now docker
 
-## Install support for NVIDIA if an NVIDIA GPU is detected (install Container Toolkit or Docker runtime depending on Docker version)
+## (Optional) Install support for NVIDIA if an NVIDIA GPU is detected and the installation is requested
 check_nvidia_gpu() {
     if ! lshw -C display 2>/dev/null | grep -qi "vendor.*nvidia"; then
         return 1 # NVIDIA GPU is not present
-    elif [[ ! -x "$(command -v nvidia-smi)" ]]; then
+    elif ! command -v nvidia-smi >/dev/null 2>&1; then
         return 1 # NVIDIA GPU is present but nvidia-utils not installed
     elif ! nvidia-smi -L &>/dev/null; then
         return 1 # NVIDIA GPU is present but is not working properly
@@ -29,44 +28,100 @@ check_nvidia_gpu() {
         return 0 # NVIDIA GPU is present and appears to be working
     fi
 }
+configure_nvidia_apt_repository() {
+    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey |
+    sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg &&
+    curl -sL https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list |
+    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' |
+    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+    sudo apt-get update
+}
 if check_nvidia_gpu; then
-    setup_nvidia_sources() {
-        # shellcheck disable=SC1091
-        wget https://nvidia.github.io/nvidia-docker/gpgkey -O - -o /dev/null | sudo apt-key add - 2>/dev/null && wget "https://nvidia.github.io/nvidia-docker/$(source /etc/os-release && echo "${ID}${VERSION_ID}")/nvidia-docker.list" -O - -o /dev/null | sed "s#deb https://#deb [arch=$(dpkg --print-architecture)] https://#g" | sudo tee /etc/apt/sources.list.d/nvidia-docker.list >/dev/null
-        sudo apt-get update
-    }
-    if dpkg --compare-versions "$(sudo docker version --format '{{.Server.Version}}')" gt "19.3"; then
-        # With Docker 19.03, nvidia-docker2 is deprecated since NVIDIA GPUs are natively supported as devices in the Docker runtime
-        if apt -qq list nvidia-container-toolkit 2>/dev/null | grep -q "installed"; then
-            echo "INFO: NVIDIA Container Toolkit is already installed."
+    echo -e "INFO: NVIDIA GPU detected."
+    DOCKER_VERSION="$(sudo docker version --format '{{.Server.Version}}' 2>/dev/null)"
+    MIN_VERSION_FOR_TOOLKIT="19.3"
+    if [ "$(printf '%s\n' "${MIN_VERSION_FOR_TOOLKIT}" "${DOCKER_VERSION}" | sort -V | head -n1)" = "$MIN_VERSION_FOR_TOOLKIT" ]; then
+        if ! command -v nvidia-container-toolkit >/dev/null 2>&1; then
+            while true; do
+                read -erp "Do you want to install NVIDIA Container Toolkit? [Y/n]: " INSTALL_NVIDIA_CONTAINER_TOOLKIT
+                case "${INSTALL_NVIDIA_CONTAINER_TOOLKIT,,}" in
+                    "" | y | yes)
+                        INSTALL_NVIDIA_CONTAINER_TOOLKIT=true
+                        break
+                        ;;
+                    n | no)
+                        INSTALL_NVIDIA_CONTAINER_TOOLKIT=false
+                        break
+                        ;;
+                esac
+            done
+            if [[ "${INSTALL_NVIDIA_CONTAINER_TOOLKIT}" = true ]]; then
+                if command -v apt-get >/dev/null 2>&1; then
+                    configure_nvidia_apt_repository
+                    sudo apt-get install -y nvidia-container-toolkit
+                elif command -v yum >/dev/null 2>&1; then
+                    curl -s -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo |
+                    sudo tee /etc/yum.repos.d/nvidia-container-toolkit.repo
+                    sudo yum install -y nvidia-container-toolkit
+                else
+                    echo >&2 -e "\033[1;31mERROR: Supported package manager not found. Please install nvidia-container-toolkit manually.\033[0m"
+                fi
+                sudo systemctl restart --now docker
+            fi
         else
-            echo "INFO: Installing NVIDIA Container Toolkit..."
-            setup_nvidia_sources
-            sudo apt-get install -y nvidia-container-toolkit
-            sudo systemctl restart docker
+            echo -e "INFO: NVIDIA Container Toolkit is already installed."
         fi
     else
-        if apt -qq list nvidia-docker2 2>/dev/null | grep -q "installed"; then
-            echo "INFO: NVIDIA Docker (Docker 19.03 or older) is already installed."
+        if ! command -v nvidia-docker >/dev/null 2>&1; then
+            while true; do
+                read -erp "Do you want to install NVIDIA Docker [Y/n]: " INSTALL_NVIDIA_DOCKER
+                case "${INSTALL_NVIDIA_DOCKER,,}" in
+                    "" | y | yes)
+                        INSTALL_NVIDIA_DOCKER=true
+                        break
+                        ;;
+                    n | no)
+                        INSTALL_NVIDIA_DOCKER=false
+                        break
+                        ;;
+                esac
+            done
+            if [[ "${INSTALL_NVIDIA_DOCKER}" = true ]]; then
+                if command -v apt-get >/dev/null 2>&1; then
+                    configure_nvidia_apt_repository
+                    sudo apt-get install -y nvidia-docker2
+                else
+                    echo >&2 -e "\033[1;31mERROR: Supported package manager not found. Please install nvidia-docker2 manually.\033[0m"
+                fi
+                sudo systemctl restart --now docker
+            fi
         else
-            echo "INFO: Installing NVIDIA Docker runtime (Docker 19.03 or older)..."
-            setup_nvidia_sources
-            sudo apt-get install -y nvidia-docker2
-            sudo systemctl restart docker
+            echo -e "INFO: NVIDIA Docker is already installed."
         fi
     fi
 fi
 
-## (Optional) Add user to docker group
 if [[ $(grep /etc/group -e "docker") != *"${USER}"* ]]; then
     [ -z "${PS1}" ]
-    read -erp "Do you want to add the current user ${USER} to the docker group? [Y/n]: " ADD_USER_TO_DOCKER_GROUP
-    if [[ "${ADD_USER_TO_DOCKER_GROUP,,}" =~ (y|yes) && ! "${ADD_USER_TO_DOCKER_GROUP,,}" =~ (n|no) ]]; then
+    ## (Optional) Add user to docker group
+    while true; do
+        read -erp "Do you want to add the current user ${USER} to the docker group? [Y/n]: " ADD_USER_TO_DOCKER_GROUP
+        case "${ADD_USER_TO_DOCKER_GROUP,,}" in
+            "" | y | yes)
+                ADD_USER_TO_DOCKER_GROUP=true
+                break
+                ;;
+            n | no)
+                ADD_USER_TO_DOCKER_GROUP=false
+                break
+                ;;
+        esac
+    done
+    if [[ "${ADD_USER_TO_DOCKER_GROUP}" = true ]]; then
         sudo groupadd -f docker
         sudo usermod -aG docker "${USER}"
         echo -e "INFO: The current user ${USER} was added to the docker group. Please log out and log back in to apply the changes. Alternatively, run the following command to apply the changes in each new shell until you log out:\n\n\tnewgrp docker\n"
-
     fi
 else
-    echo "INFO: The current user ${USER} is already in the docker group."
+    echo -e "INFO: The current user ${USER} is already in the docker group."
 fi

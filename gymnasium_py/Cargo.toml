@@ -12,8 +12,8 @@ rust-version.workspace = true
 version.workspace = true
 
 [dependencies]
+gymnasium = { workspace = true }
 pyo3 = { workspace = true, optional = true }
-gymnasium = { path = "../gymnasium" }
 
 [features]
 default = []

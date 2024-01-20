@@ -17,18 +17,8 @@ target/
 **/*.so
 
 ## Virtual environments
-.env
-.venv
-env.bak/
-env/
-ENV/
-venv.bak/
-venv/
-
-## ROS 2 & Colcon
-build/
-install/
-log/
+.env/
+.venv/
 
 ## VS Code
 .vscode/*
