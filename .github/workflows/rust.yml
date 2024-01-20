@@ -59,7 +59,7 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       ## Install dependencies
-      - run: python -m pip install --no-cache-dir gymnasium==${{ env.GYMNASIUM_VERSION }}
+      - run: python -m pip install gymnasium==${{ env.GYMNASIUM_VERSION }}
 
       ## cargo check
       - name: cargo check
