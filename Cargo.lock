@@ -178,7 +178,7 @@ dependencies = [
 
 [[package]]
 name = "gymnasium"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "pyo3",
  "thiserror",
@@ -186,7 +186,7 @@ dependencies = [
 
 [[package]]
 name = "gymnasium_cli"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "assert_cmd",
  "clap",
@@ -196,7 +196,7 @@ dependencies = [
 
 [[package]]
 name = "gymnasium_py"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "gymnasium",
  "pyo3",
@@ -204,7 +204,7 @@ dependencies = [
 
 [[package]]
 name = "gymnasium_sys"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "pyo3",
  "pyo3_bindgen",

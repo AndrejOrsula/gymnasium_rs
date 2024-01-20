@@ -21,11 +21,11 @@ license = "MIT OR Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/AndrejOrsula/gymnasium_rs"
 rust-version = "1.70"
-version = "0.1.0"
+version = "0.0.1"
 
 [workspace.dependencies]
-gymnasium = { path = "gymnasium", version = "0.1.0" }
-gymnasium_sys = { path = "gymnasium_sys", version = "0.1.0" }
+gymnasium = { path = "gymnasium", version = "0.0.1" }
+gymnasium_sys = { path = "gymnasium_sys", version = "0.0.1" }
 
 assert_cmd = { version = "2" }
 clap = { version = "4.4", features = ["derive"] }
