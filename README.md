@@ -5,7 +5,7 @@
   <a href="https://docs.rs/gymnasium">                                                 <img alt="docs.rs"    src="https://docs.rs/gymnasium/badge.svg"></a>
   <!-- <a href="https://pypi.org/project/gymnasium_rs/">                                    <img alt="pypi.org"   src="https://img.shields.io/pypi/v/gymnasium_rs.svg"></a> -->
   <a href="https://github.com/AndrejOrsula/gymnasium_rs/actions/workflows/rust.yml">   <img alt="Rust"       src="https://github.com/AndrejOrsula/gymnasium_rs/actions/workflows/rust.yml/badge.svg"></a>
-  <a href="https://github.com/AndrejOrsula/gymnasium_rs/actions/workflows/python.yml"> <img alt="Python"     src="https://github.com/AndrejOrsula/gymnasium_rs/actions/workflows/python.yml/badge.svg"></a>
+  <!-- <a href="https://github.com/AndrejOrsula/gymnasium_rs/actions/workflows/python.yml"> <img alt="Python"     src="https://github.com/AndrejOrsula/gymnasium_rs/actions/workflows/python.yml/badge.svg"></a> -->
   <a href="https://github.com/AndrejOrsula/gymnasium_rs/actions/workflows/docker.yml"> <img alt="Docker"     src="https://github.com/AndrejOrsula/gymnasium_rs/actions/workflows/docker.yml/badge.svg"></a>
   <a href="https://deps.rs/repo/github/AndrejOrsula/gymnasium_rs">                     <img alt="deps.rs"    src="https://deps.rs/repo/github/AndrejOrsula/gymnasium_rs/status.svg"></a>
   <a href="https://codecov.io/gh/AndrejOrsula/gymnasium_rs">                           <img alt="codecov.io" src="https://codecov.io/gh/AndrejOrsula/gymnasium_rs/branch/main/graph/badge.svg"></a>
