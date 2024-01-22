@@ -413,6 +413,7 @@ version = "0.0.1"
 dependencies = [
  "dfdx",
  "gymnasium_sys",
+ "itertools",
  "ndarray",
  "num-traits",
  "numpy",
@@ -747,8 +748,6 @@ dependencies = [
 [[package]]
 name = "pyo3_bindgen"
 version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e5e9515b0b5f9311c13d58305325966fccc9106e95ba3ecb2dae2adbe154a692"
 dependencies = [
  "pyo3_bindgen_engine",
  "pyo3_bindgen_macros",
@@ -757,8 +756,6 @@ dependencies = [
 [[package]]
 name = "pyo3_bindgen_engine"
 version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "93ecdb52eb0fc71e80d6a8a059c1872dd30861480b34f67cf1ccc382a1ad019d"
 dependencies = [
  "itertools",
  "proc-macro2",
@@ -771,8 +768,6 @@ dependencies = [
 [[package]]
 name = "pyo3_bindgen_macros"
 version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0e4a0bf0840c58172533b09b8fcb02c1054af9e6e986cb0f93f3e96815e5ee79"
 dependencies = [
  "proc-macro2",
  "pyo3_bindgen_engine",
