@@ -31,7 +31,7 @@ assert_cmd = { version = "2" }
 clap = { version = "4.4", features = ["derive"] }
 predicates = { version = "3" }
 pyo3 = { version = "0.20", features = ["abi3-py310", "auto-initialize"] }
-pyo3_bindgen = { version = "0.1" }
+pyo3_bindgen = { version = "0.2" }
 thiserror = { version = "1.0" }
 
 itertools = { version = "0.12" }
