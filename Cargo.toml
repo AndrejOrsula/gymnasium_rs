@@ -40,6 +40,3 @@ ndarray = { version = "0.15" }
 num-traits = { version = "0.2" }
 numpy = { version = "0.20" }
 rand = { version = "0.8", features = ["small_rng"] }
-
-[patch.crates-io]
-pyo3_bindgen = { path = "../pyo3_bindgen/pyo3_bindgen" }

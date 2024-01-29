@@ -35,3 +35,11 @@ impl Env {
         Ok(())
     }
 }
+
+impl Drop for Env {
+    fn drop(&mut self) {
+        pyo3::Python::with_gil(|py| {
+            self.close(py).unwrap();
+        });
+    }
+}
