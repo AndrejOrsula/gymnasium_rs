@@ -748,6 +748,7 @@ dependencies = [
 [[package]]
 name = "pyo3_bindgen"
 version = "0.2.0"
+source = "git+https://github.com/AndrejOrsula/pyo3_bindgen.git?branch=dev#e4e063e5c6093e1027f5ffa5faf8de0e0164a65f"
 dependencies = [
  "pyo3_bindgen_engine",
  "pyo3_bindgen_macros",
@@ -756,6 +757,7 @@ dependencies = [
 [[package]]
 name = "pyo3_bindgen_engine"
 version = "0.2.0"
+source = "git+https://github.com/AndrejOrsula/pyo3_bindgen.git?branch=dev#e4e063e5c6093e1027f5ffa5faf8de0e0164a65f"
 dependencies = [
  "itertools",
  "proc-macro2",
@@ -768,6 +770,7 @@ dependencies = [
 [[package]]
 name = "pyo3_bindgen_macros"
 version = "0.2.0"
+source = "git+https://github.com/AndrejOrsula/pyo3_bindgen.git?branch=dev#e4e063e5c6093e1027f5ffa5faf8de0e0164a65f"
 dependencies = [
  "proc-macro2",
  "pyo3_bindgen_engine",
