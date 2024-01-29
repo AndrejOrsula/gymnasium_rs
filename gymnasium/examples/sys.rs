@@ -1,11 +1,11 @@
-pub use gymnasium::sys;
+use gymnasium::sys as gymnasium;
 
 pub fn main() -> pyo3::PyResult<()> {
     pyo3::Python::with_gil(|py| {
         let kwargs = pyo3::types::PyDict::new(py);
         kwargs.set_item("render_mode", "human").unwrap();
         let env_id = pyo3::types::PyString::new(py, "LunarLander-v2");
-        let env = sys::make(py, env_id, None, None, None, None, kwargs).unwrap();
+        let env = gymnasium::make(py, env_id, None, None, None, None, kwargs).unwrap();
         let reset_ret = env.reset(py, None, None)?;
         let (_observation, _info) = reset_ret;
         for _ in 0..1000 {
