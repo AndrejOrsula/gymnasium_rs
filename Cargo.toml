@@ -28,7 +28,7 @@ gymnasium = { path = "gymnasium", version = "0.0.1" }
 gymnasium_sys = { path = "gymnasium_sys", version = "0.0.1" }
 
 assert_cmd = { version = "2" }
-clap = { version = "4.4", features = ["derive"] }
+clap = { version = "4.5", features = ["derive"] }
 predicates = { version = "3" }
 pyo3 = { version = "0.20", features = ["abi3-py310", "auto-initialize"] }
 pyo3_bindgen = { version = "0.1" }
