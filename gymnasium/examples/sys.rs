@@ -5,7 +5,7 @@ pub fn main() -> pyo3::PyResult<()> {
         let kwargs = pyo3::types::PyDict::new(py);
         kwargs.set_item("render_mode", "human").unwrap();
         let env_id = pyo3::types::PyString::new(py, "LunarLander-v2");
-        let env = gymnasium::make(py, env_id, None, None, None, None, kwargs).unwrap();
+        let env = gymnasium::make(py, env_id, None, None, None, None, Some(kwargs)).unwrap();
         let reset_ret = env.reset(py, None, None)?;
         let (_observation, _info) = reset_ret;
         for _ in 0..1000 {
