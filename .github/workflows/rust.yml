@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  MSRV: "1.70"
+  MSRV: "1.74"
   PYTHON_VERSION: "3.10"
   GYMNASIUM_VERSION: "0.29.1"
   CARGO_TERM_COLOR: always
