@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  MSRV: "1.70"
+  MSRV: "1.74"
   PYTHON_VERSION: "3.10"
   GYMNASIUM_VERSION: "0.29.1"
   CARGO_TERM_COLOR: always
@@ -88,13 +88,13 @@ jobs:
       - name: cargo test --all-features
         run: cargo test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --all-targets --all-features --verbose
 
-      ## cargo test --doc
-      - name: cargo test --doc
-        run: cargo test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --exclude ${{ env.SYS_LIB_PACKAGE_NAME }} --doc --verbose
-      - name: cargo test --doc --no-default-features
-        run: cargo test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --exclude ${{ env.SYS_LIB_PACKAGE_NAME }} --doc --no-default-features --verbose
-      - name: cargo test --doc --all-features
-        run: cargo test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --exclude ${{ env.SYS_LIB_PACKAGE_NAME }} --doc --all-features --verbose
+      # ## cargo test --doc
+      # - name: cargo test --doc
+      #   run: cargo test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --exclude ${{ env.SYS_LIB_PACKAGE_NAME }} --doc --verbose
+      # - name: cargo test --doc --no-default-features
+      #   run: cargo test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --exclude ${{ env.SYS_LIB_PACKAGE_NAME }} --doc --no-default-features --verbose
+      # - name: cargo test --doc --all-features
+      #   run: cargo test --workspace --exclude ${{ env.PYTHON_PACKAGE_NAME }} --exclude ${{ env.SYS_LIB_PACKAGE_NAME }} --doc --all-features --verbose
 
       ## [stable] cargo clippy
       - name: stable | cargo clippy

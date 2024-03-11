@@ -18,8 +18,8 @@ Rust implementation of [Gymnasium](https://gymnasium.farama.org) API for reinfor
 The workspace contains these packages:
 
 - **[gymnasium](gymnasium):** Core library
-- **[gymnasium_cli](gymnasium_cli):** CLI tool
-- **[gymnasium_py](gymnasium_py):** Python module for interoperability with Rust environments
+- **[gymnasium_cli](gymnasium_cli):** \[WIP\] CLI tool
+- **[gymnasium_py](gymnasium_py):** \[WIP\] Python module for interoperability with Rust environments
 - **[gymnasium_sys](gymnasium_sys):** Rust FFI bindings for Python implementation
 
 ## Instructions

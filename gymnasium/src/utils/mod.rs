@@ -1,3 +1,3 @@
 pub mod error;
-
-pub use error::{GymnasiumError, Result};
+pub mod random;
+pub mod result;
