@@ -4,8 +4,8 @@ members = [
     "gymnasium",
     # CLI tool
     "gymnasium_cli",
-    # Python module
-    "gymnasium_py",
+    # # Python module
+    # "gymnasium_py",
     # Rust FFI bindings
     "gymnasium_sys",
 ]
@@ -27,16 +27,21 @@ version = "0.0.1"
 gymnasium = { path = "gymnasium", version = "0.0.1" }
 gymnasium_sys = { path = "gymnasium_sys", version = "0.0.1" }
 
-assert_cmd = { version = "2" }
 clap = { version = "4.5", features = ["derive"] }
-predicates = { version = "3" }
+itertools = { version = "0.12" }
+num-traits = { version = "0.2" }
 pyo3 = { version = "0.20", features = ["abi3-py310", "auto-initialize"] }
 pyo3_bindgen = { version = "0.4" }
+rand = { version = "0.8", features = ["small_rng"] }
 thiserror = { version = "1.0" }
 
-itertools = { version = "0.12" }
-dfdx = { git = "https://github.com/coreylowman/dfdx.git", rev = "f4f7165" }
 ndarray = { version = "0.15" }
-num-traits = { version = "0.2" }
 numpy = { version = "0.20" }
-rand = { version = "0.8", features = ["small_rng"] }
+
+# assert_cmd = { version = "2" }
+# predicates = { version = "3" }
+# rustc-hash = { version = "1" }
+
+# burn = { version = "0.13" }
+# candle-core = { version = "0.4" }
+# dfdx = { git = "https://github.com/coreylowman/dfdx.git", rev = "f4f7165" }

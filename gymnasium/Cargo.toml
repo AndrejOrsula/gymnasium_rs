@@ -12,19 +12,22 @@ rust-version.workspace = true
 version.workspace = true
 
 [dependencies]
-dfdx = { workspace = true, optional = true }
 gymnasium_sys = { workspace = true }
+
 itertools = { workspace = true }
-ndarray = { workspace = true }
 num-traits = { workspace = true }
-numpy = { workspace = true }
-pyo3 = { workspace = true }
 rand = { workspace = true }
 thiserror = { workspace = true }
 
+# Mark as optional
+ndarray = { workspace = true, optional = true }
+pyo3 = { workspace = true, optional = true }
+numpy = { workspace = true, optional = true }
+
 [features]
 default = []
-dfdx = ["dep:dfdx"]
+python = ["ndarray", "dep:pyo3", "dep:numpy"]
+ndarray = ["dep:ndarray"]
 
 [lib]
 name = "gymnasium"
