@@ -1,4 +1,4 @@
-use gymnasium::sys as gymnasium;
+use gymnasium_sys as gymnasium;
 
 pub fn main() -> pyo3::PyResult<()> {
     pyo3::Python::with_gil(|py| {
