@@ -1,12 +1,14 @@
 //! Gymnasium API for Reinforcement Learning.
 
 pub mod backend;
+pub mod env;
 pub mod space;
 pub mod utils;
 
 /// Prelude module for the gymnasium crate that re-exports the most commonly used items.
 pub mod prelude {}
 
+pub use env::Env;
 pub use space::Space;
 pub use utils::{error::GymnasiumError, result::GymnasiumResult};
 

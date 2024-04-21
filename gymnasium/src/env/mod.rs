@@ -1,101 +1,101 @@
-use crate::space::Space;
-use std::collections::HashMap;
-use std::convert::From;
+use crate::{backend::TensorLike, Result, Space};
 
-type Info = HashMap<String, ()>;
+mod render;
+mod return_types;
 
-pub enum RenderMode {
-    None,
-    Human,
-    Image,
-    Text,
+pub use render::{RenderMode, RenderOutput};
+pub use return_types::{ResetReturn, StepReturn};
+
+/// The main trait for implementing Reinforcement Learning environments.
+pub trait Env {
+    type TensorLike: TensorLike;
+
+    /// Configuration for the constructor of the environment.
+    type Config: EnvConfig;
+
+    /// Action space of the environment.
+    type ActionSpace: Space<Self::TensorLike>;
+
+    /// Observation space of the environment.
+    type ObservationSpace: Space<Self::TensorLike>;
+
+    /// Type for the reward (floating point).
+    type RewardType: num_traits::Float;
+
+    /// Type containing additional information from the environment.
+    type InfoType;
+
+    /// Create a new [`Env`] instance with the given configuration.
+    ///
+    /// # Arguments
+    ///
+    /// * `cfg` - The configuration specific to the environment.
+    ///
+    /// # Returns
+    ///
+    /// * The [`Env`] instance encapsulated in a [`Result`].
+    ///
+    /// # Errors
+    ///
+    /// * [`GymnasiumError::InvalidConfigError`] - If the provided configuration is invalid.
+    fn new(cfg: Self::Config) -> Result<Self>
+    where
+        Self: Sized;
+
+    /// Take a single time step in the environment using the given action.
+    ///
+    /// # Arguments
+    ///
+    /// * `action` - The action to take in the environment.
+    ///
+    /// # Returns
+    ///
+    /// * The [`StepReturn`] specific to the environment for taking the action.
+    fn step(&mut self, action: Self::TensorLike) -> StepReturn<Self>
+    where
+        Self: Sized;
+
+    /// Reset the environment to its initial state. After the initial reset, the environment
+    /// should be reset whenever [`StepReturn`] returned by [`Env::step()`] indicates that
+    /// the episode was either `terminated` or `truncated`.
+    ///
+    /// # Returns
+    ///
+    /// * The [`ResetReturn`] specific to the environment after the reset.
+    fn reset(&mut self) -> ResetReturn<Self>
+    where
+        Self: Sized;
+
+    /// Render the environment into various output formats.
+    ///
+    /// # Returns
+    ///
+    /// * [`Box`]-ed [`RenderOutput`] specific to the environment and render mode.
+    ///
+    /// # Notes
+    ///
+    /// The default implementation assumes [`RenderMode::None`] and therefore returns `()`.
+    fn render(&mut self) -> Box<dyn RenderOutput> {
+        Box::new(())
+    }
+
+    /// (Optional) Cleanly close external resources used by the environment.
+    ///
+    /// # Notes
+    ///
+    /// The default implementation does nothing.
+    fn close(&mut self) {}
 }
 
-pub struct StepResult<ObservationType: Space, RewardType> {
-    observation: ObservationType,
-    reward: RewardType,
-    terminated: bool,
-    truncated: bool,
-    info: Info,
-}
-
-impl<ObservationType: Space, RewardType> StepResult<ObservationType, RewardType> {
-    pub fn new(
-        observation: ObservationType,
-        reward: RewardType,
-        terminated: bool,
-        truncated: bool,
-        info: Info,
-    ) -> Self {
-        Self {
-            observation,
-            reward,
-            terminated,
-            truncated,
-            info,
-        }
+/// Trait that abstracts the configuration of an environment.
+pub trait EnvConfig {
+    /// The seed for the pseudo-random number generator of the environment.
+    fn seed(&self) -> Option<u64> {
+        None
     }
 
-    pub fn observation(&self) -> &ObservationType {
-        &self.observation
+    /// The render mode of the environment.
+    fn render_mode(&self) -> render::RenderMode {
+        render::RenderMode::None
     }
-
-    // pub fn reward(&self) -> RewardType {
-    //     self.reward
-    // }
-
-    pub fn terminated(&self) -> bool {
-        self.terminated
-    }
-
-    pub fn truncated(&self) -> bool {
-        self.truncated
-    }
-
-    pub fn info(&self) -> &Info {
-        &self.info
-    }
-
-    pub fn done(&self) -> bool {
-        self.terminated || self.truncated
-    }
-}
-
-impl<ObservationType: Space, RewardType> From<StepResult<ObservationType, RewardType>>
-    for (ObservationType, RewardType, bool, bool, Info)
-{
-    fn from(step_result: StepResult<ObservationType, RewardType>) -> Self {
-        (
-            step_result.observation,
-            step_result.reward,
-            step_result.terminated,
-            step_result.truncated,
-            step_result.info,
-        )
-    }
-}
-
-pub trait Env<ActionType: Space, ObservationType: Space, RewardType> {
-    fn step(&mut self, action: ActionType) -> StepResult<ObservationType, RewardType>;
-    fn reset(
-        &mut self,
-        seed: Option<usize>,
-        options: Option<HashMap<String, String>>,
-    ) -> (ObservationType, Info);
-    // fn render(&self) -> Option<Image>;
-    // fn close(&mut self);
-
-    // fn action_space(&self) -> ObservationType;
-    // fn observation_space(&self) -> ActionType;
-    // fn reward_range(&self) -> Range<RewardType> {
-    //     use std::ops::Range;
-    //     Range {
-    //         start: RewardType::neg_infinity(),
-    //         end: RewardType::infinity(),
-    //     }
-    // }
-    // fn metadata(&self) -> Info;
-    // fn render_mode(&self) -> RenderMode;
-
-    fn build(config: HashMap<String, String>, seed: Option<usize>) -> Self;
 }
