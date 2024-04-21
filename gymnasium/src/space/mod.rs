@@ -1,8 +1,16 @@
-use crate::backend::TensorLike;
+use crate::backend::{DType, TensorLike};
 
 pub mod fundamental;
+// pub mod composite;
 
-pub use fundamental::{AlphanumericSpace, BoxSpace, DiscreteSpace};
+pub use fundamental::{
+    AlphanumericSpace,
+    BoxSpace,
+    DiscreteSpace,
+    // MultiBinarySpace,
+    // MultiDiscreteSpace,
+};
+// pub use composite::{HashMapSpace, VecSpace};
 
 /// Interface for all spaces that specify the valid values of actions and observations for each
 /// environment.
@@ -12,7 +20,7 @@ pub use fundamental::{AlphanumericSpace, BoxSpace, DiscreteSpace};
 ///
 /// All spaces implement this trait and can be used interchangeably. For the full list of spaces,
 /// see the [implementers](Space#implementers) of this trait.
-pub trait Space<T: TensorLike> {
+pub trait Space<A: DType, T: TensorLike<A>> {
     /// Get the shape of the space.
     ///
     /// # Returns
@@ -32,7 +40,7 @@ pub trait Space<T: TensorLike> {
     fn contains(&self, value: &T) -> bool;
 }
 
-pub trait SampleUniform<T: TensorLike>: Space<T> {
+pub trait SampleUniform<A: DType, T: TensorLike<A>>: Space<A, T> {
     /// Uniformly sample a random value from the space.
     ///
     /// # Arguments

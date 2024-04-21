@@ -41,8 +41,8 @@ impl FromStr for RenderMode {
 impl Display for RenderMode {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Other(s) => write!(f, "{}", s),
-            _ => write!(f, "{}", self),
+            Self::Other(s) => write!(f, "{s}"),
+            _ => write!(f, "{self}"),
         }
     }
 }

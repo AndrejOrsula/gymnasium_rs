@@ -1,4 +1,7 @@
-use crate::{backend::TensorLike, Result, Space};
+use crate::{
+    backend::{DType, TensorLike},
+    Result, Space,
+};
 
 mod render;
 mod return_types;
@@ -8,16 +11,17 @@ pub use return_types::{ResetReturn, StepReturn};
 
 /// The main trait for implementing Reinforcement Learning environments.
 pub trait Env {
-    type TensorLike: TensorLike;
+    type DType: DType;
+    type TensorLike: TensorLike<Self::DType>;
 
     /// Configuration for the constructor of the environment.
     type Config: EnvConfig;
 
     /// Action space of the environment.
-    type ActionSpace: Space<Self::TensorLike>;
+    type ActionSpace: Space<Self::DType, Self::TensorLike>;
 
     /// Observation space of the environment.
-    type ObservationSpace: Space<Self::TensorLike>;
+    type ObservationSpace: Space<Self::DType, Self::TensorLike>;
 
     /// Type for the reward (floating point).
     type RewardType: num_traits::Float;

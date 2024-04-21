@@ -15,9 +15,9 @@ where
     dist: BoxDistribution<V>,
 }
 
-impl<T, V> Space<T> for BoxSpace<V>
+impl<T, V> Space<V, T> for BoxSpace<V>
 where
-    T: TensorLike,
+    T: TensorLike<V>,
     V: DType + rand::distributions::uniform::SampleUniform + num_traits::PrimInt + std::fmt::Debug,
     <V as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
 {
@@ -27,21 +27,24 @@ where
 
     fn contains(&self, value: &T) -> bool {
         match &self.bounds {
-            BoxBounds::Identical((low, high)) => {
-                value.as_slice().iter().all(|v| low <= *v && *v <= high)
-            }
+            BoxBounds::Identical((low, high)) => value
+                .as_slice()
+                .unwrap()
+                .iter()
+                .all(|v| low <= v && v <= high),
             BoxBounds::Independent(bounds) => value
                 .as_slice()
+                .unwrap()
                 .iter()
                 .zip(bounds.iter())
-                .all(|(v, (low, high))| low <= *v && *v <= high),
+                .all(|(v, (low, high))| low <= v && v <= high),
         }
     }
 }
 
-impl<T, V> SampleUniform<T> for BoxSpace<V>
+impl<T, V> SampleUniform<V, T> for BoxSpace<V>
 where
-    T: TensorLike,
+    T: TensorLike<V>,
     V: DType + rand::distributions::uniform::SampleUniform + num_traits::PrimInt + std::fmt::Debug,
     <V as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
 {

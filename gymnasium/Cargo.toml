@@ -18,16 +18,17 @@ itertools = { workspace = true }
 num-traits = { workspace = true }
 rand = { workspace = true }
 thiserror = { workspace = true }
-
-# Mark as optional
 ndarray = { workspace = true, optional = true }
 pyo3 = { workspace = true, optional = true }
 numpy = { workspace = true, optional = true }
 
+dfdx = { workspace = true, optional = true }
+
 [features]
-default = []
+default = ["ndarray"]
 python = ["ndarray", "dep:pyo3", "dep:numpy"]
 ndarray = ["dep:ndarray"]
+dfdx = ["dep:dfdx"]
 
 [lib]
 name = "gymnasium"

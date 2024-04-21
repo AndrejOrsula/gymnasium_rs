@@ -18,6 +18,7 @@ impl TimeLimit {
     /// # Returns
     ///
     /// * The newly created [`TimeLimit`] instance.
+    #[must_use]
     pub fn new(max_steps: u64) -> Self {
         Self {
             max_steps,

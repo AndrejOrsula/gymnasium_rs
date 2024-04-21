@@ -16,7 +16,7 @@ pub struct StepReturn<E: Env> {
     pub info: E::InfoType,
 }
 
-/// [StepReturn] represented as a tuple.
+/// [`StepReturn`] represented as a tuple.
 type StepReturnTuple<E> = (
     <E as Env>::TensorLike,
     <E as Env>::RewardType,
@@ -57,7 +57,7 @@ pub struct ResetReturn<E: Env> {
     pub info: E::InfoType,
 }
 
-/// [ResetReturn] represented as a tuple.
+/// [`ResetReturn`] represented as a tuple.
 type ResetReturnTuple<E> = (<E as Env>::TensorLike, <E as Env>::InfoType);
 
 impl<E: Env> From<ResetReturn<E>> for ResetReturnTuple<E> {

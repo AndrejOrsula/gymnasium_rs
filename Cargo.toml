@@ -35,6 +35,7 @@ pyo3_bindgen = { version = "0.4" }
 rand = { version = "0.8", features = ["small_rng"] }
 thiserror = { version = "1.0" }
 
+dfdx = { version = "0.13" }
 ndarray = { version = "0.15" }
 numpy = { version = "0.20" }
 
@@ -44,4 +45,3 @@ numpy = { version = "0.20" }
 
 # burn = { version = "0.13" }
 # candle-core = { version = "0.4" }
-# dfdx = { git = "https://github.com/coreylowman/dfdx.git", rev = "f4f7165" }

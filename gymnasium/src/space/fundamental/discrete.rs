@@ -14,9 +14,9 @@ where
     dist: rand::distributions::Uniform<V>,
 }
 
-impl<T, V> Space<T> for DiscreteSpace<V>
+impl<T, V> Space<V, T> for DiscreteSpace<V>
 where
-    T: TensorLike,
+    T: TensorLike<V>,
     V: DType + rand::distributions::uniform::SampleUniform + num_traits::PrimInt + std::fmt::Debug,
     <V as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
 {
@@ -25,14 +25,14 @@ where
     }
 
     fn contains(&self, value: &T) -> bool {
-        let value = value.as_slice::<V>()[0];
+        let value = value.as_slice().unwrap()[0];
         self.range.contains(&value)
     }
 }
 
-impl<T, V> SampleUniform<T> for DiscreteSpace<V>
+impl<T, V> SampleUniform<V, T> for DiscreteSpace<V>
 where
-    T: TensorLike,
+    T: TensorLike<V>,
     V: DType + rand::distributions::uniform::SampleUniform + num_traits::PrimInt + std::fmt::Debug,
     <V as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
 {

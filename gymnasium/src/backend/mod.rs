@@ -3,29 +3,30 @@ use crate::Result;
 mod common;
 mod std;
 
+#[cfg(feature = "ndarray")]
 mod ndarray;
+// #[cfg(feature = "dfdx")]
 // mod dfdx;
 
 pub use common::DummyDevice;
 
-pub trait TensorLike {
+pub trait TensorLike<T>
+where
+    T: DType,
+{
     fn shape(&self) -> Vec<usize>;
 
-    fn from_vec<T>(data: Vec<T>) -> Self
+    fn from_vec(data: Vec<T>) -> Self;
+
+    fn from_shape_vec(shape: &[usize], data: Vec<T>) -> Result<Self>
     where
-        T: DType;
+        Self: Sized;
 
-    fn from_shape_vec<S, T>(shape: S, data: Vec<T>) -> Result<Self>
-    where
-        Self: Sized,
-        S: Shape,
-        T: DType;
+    fn into_vec(self) -> Vec<T>;
 
-    fn to_vec<T>(&self) -> Vec<T>;
+    fn as_slice(&self) -> Option<&[T]>;
 
-    fn as_slice<T>(&self) -> &[T];
-
-    fn as_slice_mut<T>(&mut self) -> &mut [T];
+    fn as_slice_mut(&mut self) -> Option<&mut [T]>;
 }
 
 pub trait DType {}

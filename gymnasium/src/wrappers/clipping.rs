@@ -1,4 +1,7 @@
-use crate::{backend::TensorLike, Env, Wrapper};
+use crate::{
+    backend::{DType, TensorLike},
+    Env, Wrapper,
+};
 
 /// Wrapper that clips actions to a fixed range.
 pub struct ActionClipping<T: PartialOrd + Copy> {
@@ -24,9 +27,9 @@ impl<T: PartialOrd + Copy> ActionClipping<T> {
     }
 }
 
-impl<E: Env, T: PartialOrd + Copy> Wrapper<E> for ActionClipping<T> {
+impl<E: Env<DType = T>, T: PartialOrd + Copy + DType> Wrapper<E> for ActionClipping<T> {
     fn wrap_action(&self, _env: &E, action: &mut <E as Env>::TensorLike) {
-        action.as_slice_mut().iter_mut().for_each(|a| {
+        action.as_slice_mut().unwrap().iter_mut().for_each(|a| {
             if *a < self.min {
                 *a = self.min;
             } else if *a > self.max {

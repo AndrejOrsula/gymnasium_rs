@@ -15,9 +15,9 @@ where
     dist_char: rand::distributions::Alphanumeric,
 }
 
-impl<T, V> Space<T> for AlphanumericSpace<V>
+impl<T, V> Space<V, T> for AlphanumericSpace<V>
 where
-    T: TensorLike,
+    T: TensorLike<V>,
     V: DType + rand::distributions::uniform::SampleUniform + Into<u8> + Copy,
 {
     fn shape(&self) -> Vec<usize> {
@@ -25,7 +25,7 @@ where
     }
 
     fn contains(&self, value: &T) -> bool {
-        let value: &[V] = value.as_slice();
+        let value: &[V] = value.as_slice().unwrap();
         let len = value.len();
         (len >= self.len_range.start && len < self.len_range.end)
             && value.iter().all(|v| {
@@ -35,16 +35,16 @@ where
     }
 }
 
-impl<T, V> SampleUniform<T> for AlphanumericSpace<V>
+impl<T, V> SampleUniform<V, T> for AlphanumericSpace<V>
 where
-    T: TensorLike,
+    T: TensorLike<V>,
     V: DType + rand::distributions::uniform::SampleUniform + Into<u8> + From<u8> + Copy,
 {
     fn sample(&self, rng: &mut impl rand::Rng) -> T {
         let len = rand::distributions::Distribution::sample(&self.dist_len, rng);
         let data = rand::distributions::Distribution::sample_iter(&self.dist_char, rng)
             .take(len)
-            .map(|c| c.into())
+            .map(std::convert::Into::into)
             .collect::<Vec<V>>();
         T::from_vec(data)
     }
@@ -67,8 +67,7 @@ where
         if n == 0 {
             return Err(GymnasiumError::SpaceError(format!(
                 "Alphanumeric space must have a minimum length of at least 1 char \
-                    ({:?} [n] < 1 [MIN])",
-                n,
+                    ({n:?} [n] < 1 [MIN])",
             )));
         }
 
@@ -119,10 +118,12 @@ where
         })
     }
 
+    #[must_use]
     pub const fn min_len(&self) -> usize {
         self.len_range.start
     }
 
+    #[must_use]
     pub const fn max_len(&self) -> usize {
         self.len_range.end
     }
