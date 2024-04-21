@@ -88,7 +88,7 @@ where
                 BoxDistribution::Identical(rand::distributions::Uniform::new(*low, *high))
             }
             BoxBounds::Independent(bounds) => {
-                if bounds.len() != shape.iter().sum() {
+                if bounds.len() != shape.iter().sum::<usize>() {
                     return Err(GymnasiumError::SpaceError(format!(
                         "Box space must have the same number of bounds as the number of elements \
                             ({:?} [bounds] != {:?} [elements])",

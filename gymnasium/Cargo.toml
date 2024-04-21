@@ -22,13 +22,15 @@ ndarray = { workspace = true, optional = true }
 pyo3 = { workspace = true, optional = true }
 numpy = { workspace = true, optional = true }
 
+candle-core = { workspace = true, optional = true }
 dfdx = { workspace = true, optional = true }
 
 [features]
-default = ["ndarray"]
+default = ["candle", "ndarray"]
 python = ["ndarray", "dep:pyo3", "dep:numpy"]
 ndarray = ["dep:ndarray"]
 dfdx = ["dep:dfdx"]
+candle = ["dep:candle-core"]
 
 [lib]
 name = "gymnasium"
