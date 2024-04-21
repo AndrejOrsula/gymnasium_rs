@@ -98,7 +98,7 @@ where
             .zip(start.as_vec().iter())
             .try_for_each(|(n, start)| {
                 if start > &E::max_value().saturating_sub(*n) {
-                    return Err(GymnasiumError::InvalidSpace(format!(
+                    return Err(GymnasiumError::SpaceError(format!(
                         "The space overflows the maximum value of the data type \
                     (start: {:?} + n: {:?} > MAX: {:?})",
                         start,

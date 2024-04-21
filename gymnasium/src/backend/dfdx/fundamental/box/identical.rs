@@ -82,7 +82,7 @@ where
 
     fn check_space(low: E, high: E) -> Result<()> {
         if low > high {
-            return Err(GymnasiumError::InvalidSpace(format!(
+            return Err(GymnasiumError::SpaceError(format!(
                 "The lower bound cannot be greater than the upper bound \
                 (low: {low:?} > high: {high:?})",
             )));

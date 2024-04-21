@@ -93,7 +93,7 @@ where
                 .zip(high.as_vec().iter())
                 .position(|(l, h)| l > h)
                 .unwrap();
-            return Err(GymnasiumError::InvalidSpace(format!(
+            return Err(GymnasiumError::SpaceError(format!(
                 "The lower bound cannot be greater than the upper bound \
                 (low: {:?} > high: {:?} at index {})",
                 low.as_vec()[index],

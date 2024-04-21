@@ -83,13 +83,13 @@ where
 
     fn check_space(min_len: usize, max_len: usize) -> Result<()> {
         if min_len == 0 {
-            return Err(GymnasiumError::InvalidSpace(
+            return Err(GymnasiumError::SpaceError(
                 "The minimum length of the text space must be greater than 0".to_string(),
             ));
         }
 
         if min_len > max_len {
-            return Err(GymnasiumError::InvalidSpace(format!(
+            return Err(GymnasiumError::SpaceError(format!(
                 "The minimum length of the text space cannot be greater than the maximum length \
                  (min_len: {min_len}, max_len: {max_len})",
             )));

@@ -87,13 +87,13 @@ where
 
     fn check_space(n: usize, start: E) -> Result<()> {
         if n == 0 {
-            return Err(GymnasiumError::InvalidSpace(
+            return Err(GymnasiumError::SpaceError(
                 "The space must have at least one element".to_string(),
             ));
         }
 
         if start > E::max_value().saturating_sub(E::from(n).unwrap()) {
-            return Err(GymnasiumError::InvalidSpace(format!(
+            return Err(GymnasiumError::SpaceError(format!(
                 "The space overflows the maximum value of the data type \
                 (start: {:?} + n: {:?} > MAX: {:?})",
                 start,
