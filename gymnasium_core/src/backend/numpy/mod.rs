@@ -18,8 +18,8 @@ where
     where
         Self: Sized,
     {
-        // let shape = shape.to_vec();
-        // let data = data.into_iter().collect::<Vec<_>>();
+        let _shape = shape.to_vec();
+        let _data = data.into_iter().collect::<Vec<_>>();
         todo!()
     }
 
@@ -53,8 +53,8 @@ where
     where
         Self: Sized,
     {
-        // let shape = shape.to_vec();
-        // let data = data.into_iter().collect::<Vec<_>>();
+        let _shape = shape.to_vec();
+        let _data = data.into_iter().collect::<Vec<_>>();
         todo!()
     }
 
