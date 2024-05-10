@@ -1,8 +1,8 @@
 [package]
-name = "gymnasium_sys"
+name = "gymnasium_derive"
 authors.workspace = true
 categories.workspace = true
-description.workspace = true
+description = "Procedural derive macros for gymnasium"
 edition.workspace = true
 keywords.workspace = true
 license.workspace = true
@@ -12,8 +12,9 @@ rust-version.workspace = true
 version.workspace = true
 
 [dependencies]
-numpy = { workspace = true }
-pyo3 = { workspace = true }
+proc-macro2 = { workspace = true }
+quote = { workspace = true }
+syn = { workspace = true }
 
-[build-dependencies]
-pyo3_bindgen = { workspace = true }
+[lib]
+proc-macro = true

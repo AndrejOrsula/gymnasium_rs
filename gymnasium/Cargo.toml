@@ -12,27 +12,14 @@ rust-version.workspace = true
 version.workspace = true
 
 [dependencies]
-gymnasium_sys = { workspace = true }
-
-itertools = { workspace = true }
-num-traits = { workspace = true }
-rand = { workspace = true }
-thiserror = { workspace = true }
-ndarray = { workspace = true, optional = true }
-pyo3 = { workspace = true, optional = true }
-numpy = { workspace = true, optional = true }
-
-candle-core = { workspace = true, optional = true }
-dfdx = { workspace = true, optional = true }
+gymnasium_core = { workspace = true }
+gymnasium_derive = { workspace = true, optional = true }
 
 [features]
-default = ["candle", "ndarray"]
-python = ["ndarray", "dep:pyo3", "dep:numpy"]
-ndarray = ["dep:ndarray"]
-dfdx = ["dep:dfdx"]
-candle = ["dep:candle-core"]
+# TODO: Remove derive feature from defaults
+# TODO: Add features from underlying crates
+default = ["derive"]
+derive = ["dep:gymnasium_derive"]
 
-[lib]
-name = "gymnasium"
-path = "src/lib.rs"
-crate-type = ["rlib"]
+[package.metadata.docs.rs]
+all-features = true

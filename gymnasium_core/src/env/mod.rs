@@ -99,7 +99,7 @@ pub trait EnvConfig {
     }
 
     /// The render mode of the environment.
-    fn render_mode(&self) -> render::RenderMode {
-        render::RenderMode::None
+    fn render_mode(&self) -> RenderMode {
+        RenderMode::None
     }
 }

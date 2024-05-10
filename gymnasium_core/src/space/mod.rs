@@ -52,3 +52,16 @@ pub trait SampleUniform<A: DType, T: TensorLike<A>>: Space<A, T> {
     /// A random value from the space.
     fn sample(&self, rng: &mut impl rand::Rng) -> T;
 }
+
+/// Dynamic space that can hold any space type.
+pub struct DynSpace<A: DType, T: TensorLike<A>>(Box<dyn Space<A, T>>);
+
+impl<A: DType, T: TensorLike<A>> Space<A, T> for DynSpace<A, T> {
+    fn shape(&self) -> Vec<usize> {
+        self.0.shape()
+    }
+
+    fn contains(&self, value: &T) -> bool {
+        self.0.contains(value)
+    }
+}

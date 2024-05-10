@@ -1,14 +1,16 @@
 use crate::Result;
 
-mod common;
-mod std;
+pub mod common;
+pub mod std;
 
 #[cfg(feature = "candle")]
-mod candle;
+pub mod candle;
 #[cfg(feature = "ndarray")]
-mod ndarray;
+pub mod ndarray;
 // #[cfg(feature = "dfdx")]
-// mod dfdx;
+// pub mod dfdx;
+#[cfg(feature = "numpy")]
+pub mod numpy;
 
 pub use common::DummyDevice;
 
@@ -32,6 +34,8 @@ where
 }
 
 pub trait DType {}
+
+impl<T> DType for T where T: ::numpy::Element {}
 
 pub trait Device {}
 

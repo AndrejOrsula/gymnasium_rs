@@ -23,5 +23,5 @@ python = ["pyo3"]
 [lib]
 name = "gymnasium_rs"
 path = "src/lib.rs"
-crate-type = ["rlib", "cdylib"]
+crate-type = ["cdylib"]
 doc = false

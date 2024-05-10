@@ -2,7 +2,6 @@
 #![allow(unused)]
 
 use clap::Parser;
-use gymnasium::prelude::*;
 
 fn main() {
     let args = Args::parse();

@@ -31,6 +31,7 @@ allow = [
     "ISC",                            # https://spdx.org/licenses/ISC.html
     "MIT",                            # https://spdx.org/licenses/MIT.html
     "MPL-2.0",                        # https://spdx.org/licenses/MPL-2.0.html
+    "Unicode-3.0",                    # https://spdx.org/licenses/Unicode-3.0.html
     "Unicode-DFS-2016",               # https://spdx.org/licenses/Unicode-DFS-2016.html
 ]
 exceptions = []

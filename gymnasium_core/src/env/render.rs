@@ -28,8 +28,7 @@ impl FromStr for RenderMode {
     type Err = ();
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Ok(match s.to_lowercase().as_str() {
-            s if s.is_empty() => Self::None,
-            "none" => Self::None,
+            "" | "none" => Self::None,
             "human" => Self::Human,
             "image" => Self::Image,
             "text" => Self::Text,
@@ -42,7 +41,7 @@ impl Display for RenderMode {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Other(s) => write!(f, "{s}"),
-            _ => write!(f, "{self}"),
+            _ => write!(f, "{:?}", self),
         }
     }
 }

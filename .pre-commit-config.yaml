@@ -4,7 +4,7 @@
 exclude: Cargo.lock
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v4.6.0
     hooks:
       - id: check-ast
       - id: check-builtin-literals
@@ -36,7 +36,7 @@ repos:
       - id: beautysh
 
   - repo: https://github.com/psf/black
-    rev: 23.9.1
+    rev: 24.4.2
     hooks:
       - id: black
 
@@ -48,7 +48,7 @@ repos:
         exclude: Cargo.lock
 
   - repo: https://github.com/hadolint/hadolint
-    rev: v2.12.1-beta
+    rev: v2.13.0-beta
     hooks:
       - id: hadolint-docker
         args: [--ignore, DL3008]

@@ -17,10 +17,12 @@ Rust implementation of [Gymnasium](https://gymnasium.farama.org) API for reinfor
 
 The workspace contains these packages:
 
-- **[gymnasium](gymnasium):** Core library
+- **[gymnasium](gymnasium):** Public API
 - **[gymnasium_cli](gymnasium_cli):** \[WIP\] CLI tool
-- **[gymnasium_py](gymnasium_py):** \[WIP\] Python module for interoperability with Rust environments
-- **[gymnasium_sys](gymnasium_sys):** Rust FFI bindings for Python implementation
+- **[gymnasium_core](gymnasium_core):** Core library
+- **[gymnasium_py](gymnasium_py):** \[WIP\] Python module named `gymnasium_rs` for interoperability with Rust environments (Rust -> Python)
+- **[gymnasium_derive](gymnasium_derive):** \[WIP\] Procedural macros for deriving traits
+- **[gymnasium_sys](gymnasium_sys):** Rust FFI bindings for the official Python implementation of `gymnasium`
 
 ## Instructions
 
