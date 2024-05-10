@@ -11,6 +11,8 @@ pub mod ndarray;
 // pub mod dfdx;
 #[cfg(feature = "numpy")]
 pub mod numpy;
+#[cfg(feature = "python")]
+pub mod python;
 
 pub use common::DummyDevice;
 

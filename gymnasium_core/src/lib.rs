@@ -17,6 +17,9 @@ pub use space::{DynSpace, Space};
 pub use utils::{error::GymnasiumError, result::GymnasiumResult};
 pub use wrappers::{WrappedEnv, Wrapper};
 
+#[cfg(feature = "python")]
+pub use backend::python::{PythonEnv, PythonEnvConfig};
+
 pub(crate) use utils::result::Result;
 
 // Re-export of the FFI bindings to the Python implementation of Gymnasium.
