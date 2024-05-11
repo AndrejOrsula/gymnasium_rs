@@ -10,6 +10,14 @@ pub enum GymnasiumError {
     #[error(transparent)]
     PyError(#[from] pyo3::PyErr),
 
+    #[cfg(feature = "python")]
+    #[error(transparent)]
+    PyDowncastError(#[from] pyo3::DowncastError<'static, 'static>),
+
+    #[cfg(feature = "python")]
+    #[error(transparent)]
+    PyDowncastIntoError(#[from] pyo3::DowncastIntoError<'static>),
+
     #[cfg(feature = "ndarray")]
     #[error(transparent)]
     NdarrayShapeError(#[from] ndarray::ShapeError),

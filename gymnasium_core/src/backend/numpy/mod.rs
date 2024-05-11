@@ -19,9 +19,16 @@ where
         T: Clone,
     {
         pyo3::Python::with_gil(|py| {
-            let array = numpy::PyArray::from_vec_bound(py, data);
-            let array = PyArrayMethods::reshape(&array, shape).unwrap();
-            Ok(array.unbind())
+            if shape.is_empty() {
+                Ok(numpy::PyArray::from_vec_bound(py, data)
+                    .to_dyn()
+                    .clone()
+                    .unbind())
+            } else {
+                let array = numpy::PyArray::from_vec_bound(py, data);
+                let array = PyArrayMethods::reshape(&array, shape).unwrap();
+                Ok(array.unbind())
+            }
         })
     }
 

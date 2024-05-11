@@ -564,6 +564,7 @@ version = "0.0.1"
 dependencies = [
  "gymnasium_core",
  "gymnasium_derive",
+ "rand",
 ]
 
 [[package]]

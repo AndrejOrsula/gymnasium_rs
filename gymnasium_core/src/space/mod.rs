@@ -12,7 +12,7 @@ pub use fundamental::{
     // MultiDiscreteSpace,
 };
 // pub use composite::{HashMapSpace, VecSpace};
-pub use r#dyn::DynSpace;
+pub use r#dyn::{DynSpace, DynSpaceSampleUniform};
 
 /// Interface for all spaces that specify the valid values of actions and observations for each
 /// environment.
@@ -52,5 +52,5 @@ pub trait SpaceSampleUniform<A: DType, T: TensorLike<A>>: Space<A, T> {
     /// # Returns
     ///
     /// A random value from the space.
-    fn sample(&self, rng: &mut impl rand::Rng) -> T;
+    fn sample(&self, rng: &mut rand::rngs::SmallRng) -> T;
 }

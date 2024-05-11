@@ -35,7 +35,7 @@ Add `gymnasium` as a Rust dependency to your [`Cargo.toml`](https://doc.rust-lan
 gymnasium = "0.1"
 ```
 
-<!-- **Examples:** [`gymnasium/examples/`](gymnasium/examples/) -->
+**Examples:** [`gymnasium/examples/`](gymnasium/examples/)
 
 <!-- ### <a href="#-python"><img src="https://www.svgrepo.com/show/354238/python.svg" width="16" height="16"></a> Python
 

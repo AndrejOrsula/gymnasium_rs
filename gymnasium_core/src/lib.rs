@@ -14,7 +14,7 @@ pub mod wrappers;
 
 pub use backend::{DType, TensorLike};
 pub use env::{Env, EnvConfig, RenderMode, RenderOutput, ResetReturn, StepReturn};
-pub use space::{DynSpace, Space};
+pub use space::{DynSpace, DynSpaceSampleUniform, Space};
 pub use utils::{error::GymnasiumError, result::GymnasiumResult};
 pub use wrappers::{WrappedEnv, Wrapper};
 

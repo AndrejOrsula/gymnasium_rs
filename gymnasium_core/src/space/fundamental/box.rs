@@ -18,7 +18,7 @@ where
 impl<T, V> Space<V, T> for BoxSpace<V>
 where
     T: TensorLike<V>,
-    V: DType + rand::distributions::uniform::SampleUniform + num_traits::PrimInt + std::fmt::Debug,
+    V: DType + rand::distributions::uniform::SampleUniform + std::cmp::PartialOrd + std::fmt::Debug,
     <V as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
 {
     fn shape(&self) -> &[usize] {
@@ -45,10 +45,10 @@ where
 impl<T, V> SpaceSampleUniform<V, T> for BoxSpace<V>
 where
     T: TensorLike<V>,
-    V: DType + rand::distributions::uniform::SampleUniform + num_traits::PrimInt + std::fmt::Debug,
+    V: DType + rand::distributions::uniform::SampleUniform + std::cmp::PartialOrd + std::fmt::Debug,
     <V as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
 {
-    fn sample(&self, rng: &mut impl rand::Rng) -> T {
+    fn sample(&self, rng: &mut rand::rngs::SmallRng) -> T {
         match &self.dist {
             BoxDistribution::Identical(dist) => {
                 let data = rand::distributions::Distribution::sample_iter(dist, rng)
@@ -77,7 +77,11 @@ where
 
 impl<V> BoxSpace<V>
 where
-    V: DType + rand::distributions::uniform::SampleUniform + num_traits::PrimInt + std::fmt::Debug,
+    V: DType
+        + rand::distributions::uniform::SampleUniform
+        + std::cmp::PartialOrd
+        + std::fmt::Debug
+        + Copy,
     <V as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
 {
     pub fn new(shape: Vec<usize>, bounds: BoxBounds<V>) -> Result<Self> {
@@ -179,7 +183,7 @@ impl<V> std::fmt::Debug for BoxSpace<V>
 where
     V: DType
         + rand::distributions::uniform::SampleUniform
-        + num_traits::PrimInt
+        + std::cmp::PartialOrd
         + num_traits::ConstZero
         + std::fmt::Debug,
     <V as rand::distributions::uniform::SampleUniform>::Sampler: Clone,

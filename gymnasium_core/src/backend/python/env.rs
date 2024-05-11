@@ -1,44 +1,72 @@
-use pyo3::types::{PyAnyMethods, PyDictMethods};
-use sys::core::EnvMethods;
-
 use crate::{
-    sys, DynSpace, Env, EnvConfig, RenderMode, RenderOutput, ResetReturn, Result, StepReturn,
+    space::BoxSpace, sys, DynSpaceSampleUniform, Env, EnvConfig, RenderMode, RenderOutput,
+    ResetReturn, Result, StepReturn,
 };
+use pyo3::types::{IntoPyDict, PyAnyMethods};
+use sys::{core::EnvMethods, spaces::r#box::BoxMethods, EnvMethodsManual};
 
 pub struct PythonEnv<T: ::numpy::Element> {
-    cfg: PythonEnvConfig,
-    env: pyo3::Py<sys::Env>,
-    dtype: std::marker::PhantomData<T>,
+    pub cfg: PythonEnvConfig,
+    pub env: pyo3::Py<sys::Env>,
+    pub action_space: DynSpaceSampleUniform<T, pyo3::Py<numpy::PyArray<T, numpy::IxDyn>>>,
+    pub observation_space: DynSpaceSampleUniform<T, pyo3::Py<numpy::PyArray<T, numpy::IxDyn>>>,
+    pub dtype: std::marker::PhantomData<T>,
 }
 
-impl<T: ::numpy::Element + 'static> Env for PythonEnv<T> {
+impl<
+        T: Copy
+            + num_traits::FromPrimitive
+            + numpy::Element
+            + rand::distributions::uniform::SampleUniform
+            + std::cmp::PartialOrd
+            + std::fmt::Debug
+            + 'static,
+    > Env for PythonEnv<T>
+where
+    <T as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
+{
     type DType = T;
     type TensorLike = pyo3::Py<numpy::PyArray<T, numpy::IxDyn>>;
     type Config = PythonEnvConfig;
-    type ActionSpace = DynSpace<Self::DType, Self::TensorLike>;
-    type ObservationSpace = DynSpace<Self::DType, Self::TensorLike>;
+    type ActionSpace = DynSpaceSampleUniform<Self::DType, Self::TensorLike>;
+    type ObservationSpace = DynSpaceSampleUniform<Self::DType, Self::TensorLike>;
     type RewardType = f32;
     type InfoType = pyo3::Py<pyo3::types::PyDict>;
+
+    fn action_space(&self) -> &Self::ActionSpace {
+        &self.action_space
+    }
+
+    fn observation_space(&self) -> &Self::ObservationSpace {
+        &self.observation_space
+    }
 
     fn new(cfg: Self::Config) -> Result<Self>
     where
         Self: Sized,
     {
         pyo3::prepare_freethreaded_python();
-        let env = pyo3::Python::with_gil(|py| {
-            let kwargs = pyo3::types::PyDict::new_bound(py);
-            kwargs.set_item("render_mode", cfg.render_mode.to_string())?;
+        pyo3::Python::with_gil(|py| {
+            let env = sys::make(
+                py,
+                &cfg.env_id,
+                None,
+                None,
+                None,
+                None,
+                Some([("render_mode", cfg.render_mode.to_string_py())].into_py_dict_bound(py)),
+            )?;
 
-            let env = sys::make(py, &cfg.id, None, None, None, None, Some(kwargs))?;
-            let env = env.unbind();
+            let action_space = Self::extract_space(&env.action_space()?)?;
+            let observation_space = Self::extract_space(&env.observation_space()?)?;
 
-            Result::Ok(env)
-        })?;
-
-        Ok(PythonEnv {
-            cfg,
-            env,
-            dtype: std::marker::PhantomData,
+            Result::Ok(PythonEnv {
+                cfg,
+                env: env.unbind(),
+                action_space,
+                observation_space,
+                dtype: std::marker::PhantomData,
+            })
         })
     }
 
@@ -123,8 +151,61 @@ impl<T: ::numpy::Element + 'static> Env for PythonEnv<T> {
     }
 }
 
+impl<T: numpy::Element> PythonEnv<T> {
+    fn extract_space<'py>(
+        space: &'py pyo3::Bound<'py, pyo3::PyAny>,
+    ) -> Result<DynSpaceSampleUniform<T, pyo3::Py<numpy::PyArray<T, numpy::IxDyn>>>>
+    where
+        T: Copy
+            + num_traits::FromPrimitive
+            + rand::distributions::uniform::SampleUniform
+            + std::cmp::PartialOrd
+            + std::fmt::Debug
+            + 'static,
+        <T as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
+    {
+        // Parse the name of the space
+        // TODO: Make more robust | support other spaces
+        let space_name = space.to_string();
+        let space_name = space_name
+            .split_once('(')
+            .map(|x| x.0)
+            .unwrap_or(&space_name);
+
+        Result::Ok(match space_name {
+            "Box" => {
+                let space: pyo3::Bound<sys::spaces::Box> = space.extract()?;
+
+                let shape = space
+                    .shape()?
+                    .into_iter()
+                    .map(|x| x as usize)
+                    .collect::<Vec<_>>();
+
+                // TODO: Get the actual lower & upper bounds from the box space
+                // let low = space.getattr("low")?;
+                let low = T::from_f32(-1.0).unwrap();
+                let high = T::from_f32(1.0).unwrap();
+
+                DynSpaceSampleUniform(Box::new(BoxSpace::new_identical_bounds(shape, low, high)?))
+            }
+            // "Discrete" => {
+            //     let space: pyo3::Bound<sys::spaces::Discrete> = space.extract()?;
+
+            //     let n: i64 = space.getattr("n")?.extract()?;
+            //     let start: i64 = space.getattr("start")?.extract()?;
+
+            //     DynSpaceSampleUniform(Box::new(DiscreteSpace::new_at(start as usize, n as usize)?))
+            // }
+            _ => {
+                unimplemented!("Unsupported Python space: {space_name}")
+            }
+        })
+    }
+}
+
 pub struct PythonEnvConfig {
-    pub id: String,
+    pub env_id: String,
     pub seed: Option<u64>,
     pub render_mode: RenderMode,
 }

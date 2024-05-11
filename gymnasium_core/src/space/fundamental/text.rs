@@ -41,7 +41,7 @@ where
     T: TensorLike<V>,
     V: DType + rand::distributions::uniform::SampleUniform + Into<u8> + From<u8> + Copy,
 {
-    fn sample(&self, rng: &mut impl rand::Rng) -> T {
+    fn sample(&self, rng: &mut rand::rngs::SmallRng) -> T {
         let len = rand::distributions::Distribution::sample(&self.dist_len, rng);
         let data = rand::distributions::Distribution::sample_iter(&self.dist_char, rng)
             .take(len)

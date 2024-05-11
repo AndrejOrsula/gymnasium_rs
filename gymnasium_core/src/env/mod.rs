@@ -29,6 +29,12 @@ pub trait Env {
     /// Type containing additional information from the environment.
     type InfoType;
 
+    /// Get the action space of the environment.
+    fn action_space(&self) -> &Self::ActionSpace;
+
+    /// Get the observation space of the environment.
+    fn observation_space(&self) -> &Self::ObservationSpace;
+
     /// Create a new [`Env`] instance with the given configuration.
     ///
     /// # Arguments

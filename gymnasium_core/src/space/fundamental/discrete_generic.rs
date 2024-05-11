@@ -1,15 +1,24 @@
 use super::{Space, SpaceSampleUniform};
-use crate::{backend::TensorLike, GymnasiumError, Result};
+use crate::{
+    backend::{DType, TensorLike},
+    GymnasiumError, Result,
+};
 
 #[derive(Clone)]
-pub struct DiscreteSpace {
-    range: std::ops::Range<usize>,
-    dist: rand::distributions::Uniform<usize>,
+pub struct DiscreteSpace<V>
+where
+    V: DType + rand::distributions::uniform::SampleUniform,
+    <V as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
+{
+    range: std::ops::Range<V>,
+    dist: rand::distributions::Uniform<V>,
 }
 
-impl<T> Space<usize, T> for DiscreteSpace
+impl<T, V> Space<V, T> for DiscreteSpace<V>
 where
-    T: TensorLike<usize>,
+    T: TensorLike<V>,
+    V: DType + rand::distributions::uniform::SampleUniform + num_traits::PrimInt + std::fmt::Debug,
+    <V as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
 {
     fn shape(&self) -> &[usize] {
         &[1]
@@ -21,9 +30,11 @@ where
     }
 }
 
-impl<T> SpaceSampleUniform<usize, T> for DiscreteSpace
+impl<T, V> SpaceSampleUniform<V, T> for DiscreteSpace<V>
 where
-    T: TensorLike<usize>,
+    T: TensorLike<V>,
+    V: DType + rand::distributions::uniform::SampleUniform + num_traits::PrimInt + std::fmt::Debug,
+    <V as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
 {
     fn sample(&self, rng: &mut rand::rngs::SmallRng) -> T {
         let value = rand::distributions::Distribution::sample(&self.dist, rng);
@@ -31,25 +42,33 @@ where
     }
 }
 
-impl DiscreteSpace {
-    pub fn new(n: usize) -> Result<Self> {
-        Self::new_at(0, n)
+impl<V> DiscreteSpace<V>
+where
+    V: DType
+        + rand::distributions::uniform::SampleUniform
+        + num_traits::PrimInt
+        + num_traits::ConstZero
+        + std::fmt::Debug,
+    <V as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
+{
+    pub fn new(n: V) -> Result<Self> {
+        Self::new_at(V::ZERO, n)
     }
 
-    pub fn new_at(start: usize, n: usize) -> Result<Self> {
-        if n == 0 {
+    pub fn new_at(start: V, n: V) -> Result<Self> {
+        if n <= V::ZERO {
             return Err(GymnasiumError::SpaceError(format!(
                 "Discrete space must have at least one element \
                     ({n:?} [n] <= {:?} [ZERO])",
-                0
+                V::ZERO
             )));
         }
 
-        if start.checked_add(n).is_none() {
+        if start.checked_add(&n).is_none() {
             return Err(GymnasiumError::SpaceError(format!(
                 "Discrete space overflows the maximum value of the data type \
                     ({start:?} [start] + {n:?} [n] > {:?} [MAX]!",
-                usize::max_value()
+                V::max_value()
             )));
         }
 
@@ -60,11 +79,11 @@ impl DiscreteSpace {
         })
     }
 
-    pub fn from_bounds(start: usize, end: usize) -> Result<Self> {
+    pub fn from_bounds(start: V, end: V) -> Result<Self> {
         Self::from_range(std::ops::Range { start, end })
     }
 
-    pub fn from_range(range: std::ops::Range<usize>) -> Result<Self> {
+    pub fn from_range(range: std::ops::Range<V>) -> Result<Self> {
         if range.start > range.end {
             return Err(GymnasiumError::SpaceError(format!(
                 "Discrete space must have a valid range \
@@ -77,30 +96,46 @@ impl DiscreteSpace {
         Ok(Self { range, dist })
     }
 
-    pub const fn start(&self) -> usize {
+    pub const fn start(&self) -> V {
         self.range.start
     }
 
-    pub const fn end(&self) -> usize {
+    pub const fn end(&self) -> V {
         self.range.end
     }
 }
 
-impl TryFrom<std::ops::Range<usize>> for DiscreteSpace {
+impl<V> TryFrom<std::ops::Range<V>> for DiscreteSpace<V>
+where
+    V: DType
+        + rand::distributions::uniform::SampleUniform
+        + num_traits::PrimInt
+        + num_traits::ConstZero
+        + std::fmt::Debug,
+    <V as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
+{
     type Error = GymnasiumError;
-    fn try_from(range: std::ops::Range<usize>) -> Result<Self> {
+    fn try_from(range: std::ops::Range<V>) -> Result<Self> {
         Self::from_range(range)
     }
 }
 
-impl std::fmt::Debug for DiscreteSpace {
+impl<V> std::fmt::Debug for DiscreteSpace<V>
+where
+    V: DType
+        + rand::distributions::uniform::SampleUniform
+        + num_traits::PrimInt
+        + num_traits::ConstZero
+        + std::fmt::Debug,
+    <V as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
+{
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
             "DiscreteSpace {{ start: {:?}, end: {:?}, dtype: {} }}",
             self.range.start,
             self.range.end,
-            std::any::type_name::<usize>(),
+            std::any::type_name::<V>(),
         )
     }
 }

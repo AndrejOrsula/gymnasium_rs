@@ -18,6 +18,16 @@ pub enum RenderMode {
     Other(String),
 }
 
+impl RenderMode {
+    pub fn to_string_py(&self) -> String {
+        match self {
+            Self::None => "".to_owned(),
+            Self::Image => "rgb_array".to_owned(),
+            _ => format!("{self}"),
+        }
+    }
+}
+
 impl Default for RenderMode {
     fn default() -> Self {
         Self::None
@@ -40,8 +50,8 @@ impl FromStr for RenderMode {
 impl Display for RenderMode {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Other(s) => write!(f, "{s}"),
-            _ => write!(f, "{:?}", self),
+            Self::Other(s) => write!(f, "{}", s.to_lowercase()),
+            _ => write!(f, "{}", format!("{:?}", self).to_lowercase()),
         }
     }
 }
