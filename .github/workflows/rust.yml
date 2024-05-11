@@ -20,6 +20,8 @@ env:
   CARGO_TERM_COLOR: always
   LIB_PACKAGE_NAME: gymnasium
   SYS_LIB_PACKAGE_NAME: gymnasium_sys
+  CORE_LIB_PACKAGE_NAME: gymnasium_core
+  DERIVE_LIB_PACKAGE_NAME: gymnasium_derive
   CLI_PACKAGE_NAME: gymnasium_cli
   PYTHON_PACKAGE_NAME: gymnasium_py
 
@@ -147,7 +149,13 @@ jobs:
       - name: Publish crate (sys library)
         if: ${{ env.CARGO_REGISTRY_TOKEN != '' }}
         run: cargo publish --no-verify --package ${{ env.SYS_LIB_PACKAGE_NAME }} --token ${{ secrets.CARGO_REGISTRY_TOKEN }}
-      - name: Publish crate (library)
+      - name: Publish crate (core library)
+        if: ${{ env.CARGO_REGISTRY_TOKEN != '' }}
+        run: cargo publish --no-verify --package ${{ env.CORE_LIB_PACKAGE_NAME }} --token ${{ secrets.CARGO_REGISTRY_TOKEN }}
+      - name: Publish crate (derive library)
+        if: ${{ env.CARGO_REGISTRY_TOKEN != '' }}
+        run: cargo publish --no-verify --package ${{ env.DERIVE_LIB_PACKAGE_NAME }} --token ${{ secrets.CARGO_REGISTRY_TOKEN }}
+      - name: Publish crate (Piblic API library)
         if: ${{ env.CARGO_REGISTRY_TOKEN != '' }}
         run: cargo publish --no-verify --package ${{ env.LIB_PACKAGE_NAME }} --token ${{ secrets.CARGO_REGISTRY_TOKEN }}
       - name: Publish crate (CLI tool)
