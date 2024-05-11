@@ -1,4 +1,4 @@
-//! TODO
+//! Gymnasium API for Reinforcement Learning.
 
 pub use gymnasium_core::*;
 

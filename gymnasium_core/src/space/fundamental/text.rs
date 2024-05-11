@@ -1,4 +1,4 @@
-use super::{SampleUniform, Space};
+use super::{Space, SpaceSampleUniform};
 use crate::{
     backend::{DType, TensorLike},
     GymnasiumError, Result,
@@ -13,6 +13,7 @@ where
     len_range: std::ops::Range<usize>,
     dist_len: rand::distributions::Uniform<usize>,
     dist_char: rand::distributions::Alphanumeric,
+    shape: [usize; 1],
 }
 
 impl<T, V> Space<V, T> for AlphanumericSpace<V>
@@ -20,8 +21,8 @@ where
     T: TensorLike<V>,
     V: DType + rand::distributions::uniform::SampleUniform + Into<u8> + Copy,
 {
-    fn shape(&self) -> Vec<usize> {
-        vec![self.len_range.end]
+    fn shape(&self) -> &[usize] {
+        &self.shape
     }
 
     fn contains(&self, value: &T) -> bool {
@@ -35,7 +36,7 @@ where
     }
 }
 
-impl<T, V> SampleUniform<V, T> for AlphanumericSpace<V>
+impl<T, V> SpaceSampleUniform<V, T> for AlphanumericSpace<V>
 where
     T: TensorLike<V>,
     V: DType + rand::distributions::uniform::SampleUniform + Into<u8> + From<u8> + Copy,
@@ -60,6 +61,7 @@ where
             len_range: 1..max_len,
             dist_len: rand::distributions::Uniform::new_inclusive(1, max_len),
             dist_char: rand::distributions::Alphanumeric,
+            shape: [max_len],
         })
     }
 
@@ -85,6 +87,7 @@ where
             len_range: min_len..max_len,
             dist_len: rand::distributions::Uniform::new(min_len, max_len),
             dist_char: rand::distributions::Alphanumeric,
+            shape: [max_len],
         })
     }
 
@@ -110,11 +113,13 @@ where
         }
 
         let dist_len = rand::distributions::Uniform::new(range.start, range.end);
+        let shape = [range.end];
         Ok(Self {
             _type: std::marker::PhantomData,
             len_range: range,
             dist_len,
             dist_char: rand::distributions::Alphanumeric,
+            shape,
         })
     }
 

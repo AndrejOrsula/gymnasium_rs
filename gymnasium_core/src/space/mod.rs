@@ -2,6 +2,7 @@ use crate::backend::{DType, TensorLike};
 
 pub mod fundamental;
 // pub mod composite;
+mod r#dyn;
 
 pub use fundamental::{
     AlphanumericSpace,
@@ -11,6 +12,7 @@ pub use fundamental::{
     // MultiDiscreteSpace,
 };
 // pub use composite::{HashMapSpace, VecSpace};
+pub use r#dyn::DynSpace;
 
 /// Interface for all spaces that specify the valid values of actions and observations for each
 /// environment.
@@ -26,7 +28,7 @@ pub trait Space<A: DType, T: TensorLike<A>> {
     /// # Returns
     ///
     /// The shape of the space where each element represents the size of the corresponding dimension.
-    fn shape(&self) -> Vec<usize>;
+    fn shape(&self) -> &[usize];
 
     /// Check if a value is valid for the space.
     ///
@@ -40,7 +42,7 @@ pub trait Space<A: DType, T: TensorLike<A>> {
     fn contains(&self, value: &T) -> bool;
 }
 
-pub trait SampleUniform<A: DType, T: TensorLike<A>>: Space<A, T> {
+pub trait SpaceSampleUniform<A: DType, T: TensorLike<A>>: Space<A, T> {
     /// Uniformly sample a random value from the space.
     ///
     /// # Arguments
@@ -51,17 +53,4 @@ pub trait SampleUniform<A: DType, T: TensorLike<A>>: Space<A, T> {
     ///
     /// A random value from the space.
     fn sample(&self, rng: &mut impl rand::Rng) -> T;
-}
-
-/// Dynamic space that can hold any space type.
-pub struct DynSpace<A: DType, T: TensorLike<A>>(Box<dyn Space<A, T>>);
-
-impl<A: DType, T: TensorLike<A>> Space<A, T> for DynSpace<A, T> {
-    fn shape(&self) -> Vec<usize> {
-        self.0.shape()
-    }
-
-    fn contains(&self, value: &T) -> bool {
-        self.0.contains(value)
-    }
 }

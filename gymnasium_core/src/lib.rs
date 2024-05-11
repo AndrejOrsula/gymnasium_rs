@@ -12,6 +12,7 @@ pub mod wrappers;
 //     pub use crate::{Env, GymnasiumError, GymnasiumResult, Space};
 // }
 
+pub use backend::{DType, TensorLike};
 pub use env::{Env, EnvConfig, RenderMode, RenderOutput, ResetReturn, StepReturn};
 pub use space::{DynSpace, Space};
 pub use utils::{error::GymnasiumError, result::GymnasiumResult};

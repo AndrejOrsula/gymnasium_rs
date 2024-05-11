@@ -1,4 +1,5 @@
 use crate::Result;
+use ::std::borrow::Cow;
 
 pub mod common;
 pub mod std;
@@ -20,15 +21,22 @@ pub trait TensorLike<T>
 where
     T: DType,
 {
-    fn shape(&self) -> Vec<usize>;
-
-    fn from_vec(data: Vec<T>) -> Self;
+    fn shape(&self) -> Cow<[usize]>;
 
     fn from_shape_vec(shape: &[usize], data: Vec<T>) -> Result<Self>
     where
         Self: Sized;
 
-    fn into_vec(self) -> Vec<T>;
+    fn from_vec(data: Vec<T>) -> Self
+    where
+        Self: Sized,
+    {
+        Self::from_shape_vec(&[data.len()], data).unwrap()
+    }
+
+    fn is_contiguous(&self) -> bool;
+
+    fn ensure_contiguous(&mut self);
 
     fn as_slice(&self) -> Option<&[T]>;
 

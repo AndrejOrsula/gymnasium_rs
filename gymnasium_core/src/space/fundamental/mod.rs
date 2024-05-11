@@ -1,4 +1,4 @@
-use super::{SampleUniform, Space};
+use super::{Space, SpaceSampleUniform};
 
 pub mod r#box;
 pub mod discrete;

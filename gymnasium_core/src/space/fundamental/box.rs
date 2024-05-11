@@ -1,4 +1,4 @@
-use super::{SampleUniform, Space};
+use super::{Space, SpaceSampleUniform};
 use crate::{
     backend::{DType, TensorLike},
     GymnasiumError, Result,
@@ -21,8 +21,8 @@ where
     V: DType + rand::distributions::uniform::SampleUniform + num_traits::PrimInt + std::fmt::Debug,
     <V as rand::distributions::uniform::SampleUniform>::Sampler: Clone,
 {
-    fn shape(&self) -> Vec<usize> {
-        self.shape.clone()
+    fn shape(&self) -> &[usize] {
+        &self.shape
     }
 
     fn contains(&self, value: &T) -> bool {
@@ -42,7 +42,7 @@ where
     }
 }
 
-impl<T, V> SampleUniform<V, T> for BoxSpace<V>
+impl<T, V> SpaceSampleUniform<V, T> for BoxSpace<V>
 where
     T: TensorLike<V>,
     V: DType + rand::distributions::uniform::SampleUniform + num_traits::PrimInt + std::fmt::Debug,

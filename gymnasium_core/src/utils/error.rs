@@ -5,9 +5,19 @@ use thiserror::Error;
 pub enum GymnasiumError {
     #[error(transparent)]
     IoError(#[from] std::io::Error),
+
     #[cfg(feature = "python")]
     #[error(transparent)]
     PyError(#[from] pyo3::PyErr),
+
+    #[cfg(feature = "ndarray")]
+    #[error(transparent)]
+    NdarrayShapeError(#[from] ndarray::ShapeError),
+
+    #[cfg(feature = "candle")]
+    #[error(transparent)]
+    CandleCoreError(#[from] candle_core::Error),
+
     #[error("Dependency error: {0}")]
     DependencyError(String),
     #[error("Invalid space: {0}")]
