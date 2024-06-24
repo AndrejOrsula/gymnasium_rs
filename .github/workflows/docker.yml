@@ -52,7 +52,7 @@ jobs:
 
       ## Build and push if the workflow was triggered by a release
       - name: Build (and push on release)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: ${{ github.event_name == 'release' }}
