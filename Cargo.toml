@@ -40,7 +40,7 @@ proc-macro2 = { version = "1" }
 pyo3 = { version = "0.21" }
 pyo3_bindgen = { version = "0.5", features = ["numpy"] }
 quote = { version = "1" }
-rand = { version = "0.8", features = ["small_rng"] }
+rand = { version = "0.9", features = ["small_rng"] }
 syn = { version = "2" }
 thiserror = { version = "2.0" }
 
