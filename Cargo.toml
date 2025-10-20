@@ -42,7 +42,7 @@ pyo3_bindgen = { version = "0.5", features = ["numpy"] }
 quote = { version = "1" }
 rand = { version = "0.8", features = ["small_rng"] }
 syn = { version = "2" }
-thiserror = { version = "1.0" }
+thiserror = { version = "2.0" }
 
 candle-core = { version = "0.8" }
 dfdx = { version = "0.13" }
