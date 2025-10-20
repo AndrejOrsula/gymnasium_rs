@@ -46,7 +46,7 @@ thiserror = { version = "1.0" }
 
 candle-core = { version = "0.8" }
 dfdx = { version = "0.13" }
-ndarray = { version = "0.15" }
+ndarray = { version = "0.16" }
 numpy = { version = "0.21" }
 
 # assert_cmd = { version = "2" }
