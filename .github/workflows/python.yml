@@ -147,7 +147,7 @@ jobs:
     steps:
       - name: Download wheels
         if: ${{ env.MATURIN_PYPI_TOKEN != '' }}
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: wheels
       - name: Publish to PyPI
