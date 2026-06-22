@@ -34,7 +34,7 @@ gymnasium_derive = { path = "gymnasium_derive", version = "0.0.1" }
 gymnasium_sys = { path = "gymnasium_sys", version = "0.0.1" }
 
 clap = { version = "4.6", features = ["derive"] }
-itertools = { version = "0.14" }
+itertools = { version = "0.15" }
 num-traits = { version = "0.2" }
 proc-macro2 = { version = "1" }
 pyo3 = { version = "0.21" }
