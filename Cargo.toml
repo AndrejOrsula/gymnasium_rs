@@ -41,7 +41,7 @@ pyo3 = { version = "0.21" }
 pyo3_bindgen = { version = "0.5", features = ["numpy"] }
 quote = { version = "1" }
 rand = { version = "0.9", features = ["small_rng"] }
-syn = { version = "2" }
+syn = { version = "3" }
 thiserror = { version = "2.0" }
 
 candle-core = { version = "0.11" }
