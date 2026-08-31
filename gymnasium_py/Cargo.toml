@@ -13,6 +13,7 @@ version.workspace = true
 
 [dependencies]
 gymnasium = { workspace = true }
+
 pyo3 = { workspace = true, optional = true }
 
 [features]
@@ -22,5 +23,5 @@ python = ["pyo3"]
 [lib]
 name = "gymnasium_rs"
 path = "src/lib.rs"
-crate-type = ["rlib", "cdylib"]
+crate-type = ["cdylib"]
 doc = false

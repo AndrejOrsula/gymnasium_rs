@@ -12,13 +12,8 @@ rust-version.workspace = true
 version.workspace = true
 
 [dependencies]
+numpy = { workspace = true }
 pyo3 = { workspace = true }
 
 [build-dependencies]
 pyo3_bindgen = { workspace = true }
-
-[lib]
-name = "gymnasium_sys"
-path = "src/lib.rs"
-crate-type = ["rlib"]
-doctest = false

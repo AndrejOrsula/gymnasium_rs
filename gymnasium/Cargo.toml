@@ -12,11 +12,20 @@ rust-version.workspace = true
 version.workspace = true
 
 [dependencies]
-gymnasium_sys = { workspace = true }
-pyo3 = { workspace = true }
-thiserror = { workspace = true }
+gymnasium_core = { workspace = true }
+gymnasium_derive = { workspace = true, optional = true }
 
-[lib]
-name = "gymnasium"
-path = "src/lib.rs"
-crate-type = ["rlib"]
+# pyo3 = { workspace = true, optional = true }
+
+[dev-dependencies]
+rand = { workspace = true }
+
+[features]
+# TODO: Remove derive feature from defaults
+# TODO: Add features from underlying crates
+default = ["derive"]
+derive = ["dep:gymnasium_derive"]
+# python = ["dep:pyo3"]
+
+[package.metadata.docs.rs]
+all-features = true
